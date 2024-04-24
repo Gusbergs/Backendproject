@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class Room {
 
 
+
     @Id
     @GeneratedValue
     long id;

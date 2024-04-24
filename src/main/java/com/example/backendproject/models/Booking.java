@@ -25,12 +25,12 @@ public class Booking {
 
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private Room room;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private Customer customer;
 

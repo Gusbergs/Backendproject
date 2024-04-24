@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RoomService {
 
-    private RoomRepo repo;
+    final private RoomRepo repo;
 
 }

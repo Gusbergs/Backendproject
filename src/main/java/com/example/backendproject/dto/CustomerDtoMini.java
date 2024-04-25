@@ -13,11 +13,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class CustomerDtoMini {
-    long id;
 
-    String name;
+    private long id;
 
-    String email;
+    private String name;
+
+    private String email;
 
 
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +18,9 @@ public class RoomDtoDetailed {
     boolean doubleRoom;
     int extraBed;
 
-    BookingDtoMini bookingDtoMini;
+    //BookingDtoMini bookingDtoMini;
+
+    private List<BookingDtoDetailed> bookingDtoDetailedList;
 
 
 

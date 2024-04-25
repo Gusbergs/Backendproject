@@ -2,12 +2,14 @@ package com.example.backendproject.models;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class Booking {
 
@@ -25,12 +27,12 @@ public class Booking {
 
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private Room room;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private Customer customer;
 

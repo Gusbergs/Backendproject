@@ -14,9 +14,9 @@ import java.time.LocalDate;
 @Builder
 public class BookingDtoDetailed {
     long id;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private CustomerDtoMini customerDtoMini;
-    private RoomDtoMini roomDtoMini;
+    LocalDate checkInDate;
+    LocalDate checkOutDate;
+    CustomerDtoMini customerDtoMini;
+    RoomDtoMini roomDtoMini;
 
 }

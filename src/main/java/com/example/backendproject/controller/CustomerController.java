@@ -5,17 +5,17 @@ import com.example.backendproject.dto.BookingDtoDetailed;
 import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.dto.CustomerDtoDetailed;
 import com.example.backendproject.dto.CustomerDtoMini;
+import com.example.backendproject.models.Customer;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/Customers")
 public class CustomerController {
 
@@ -30,17 +30,39 @@ public class CustomerController {
 
 
     @GetMapping("/all")
-    public List<CustomerDtoDetailed> allCustomersDetailed(){
+    public @ResponseBody List<CustomerDtoDetailed> allCustomersDetailed(){
         return customerService.getAllCustomersDetailed();
     }
 
     @GetMapping("/allmini")
-    public List<CustomerDtoMini> allCustomersMini(){
+    public @ResponseBody List<CustomerDtoMini> allCustomersMini(){
         return customerService.getAllCustomersMini();
     }
+    @RequestMapping("/addCustomer")
+    public String addingCustomer(){
+        return "register-customer.html";
+    }
+
+    @PostMapping("/addCustomer")
+    public String addCustomer(@RequestParam String name,
+                              @RequestParam String email, Model model){
 
 
+        if (customerService.checkIfCustomerExist(email)) {
+            model.addAttribute("msg", "Denna användare finns redan.");
+            model.addAttribute("msgType", "danger");
+            return "register-customer.html";
+        }else {
 
+            model.addAttribute("name", name);
+            model.addAttribute("email", email);
+
+            customerService.saveCustomer(new Customer(name, email));
+            model.addAttribute("msg", "Ny användare " + name + " har lagts till.");
+            model.addAttribute("msgType", "success");
+            return "register-customer.html";
+        }
+    }
 
 
 }

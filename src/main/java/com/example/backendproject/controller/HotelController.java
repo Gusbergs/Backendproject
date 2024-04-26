@@ -16,38 +16,8 @@ public class HotelController {
 
     private final CustomerRepo customerRepo;
 
-    @RequestMapping("/addCustomer")
-    public String addingCustomer(){
-        return "register-customer.html";
-    }
-
-    @RequestMapping("/Book-A-Room")
-    public String booking(){
-        return "book-room.html";
-    }
-
-    @PostMapping("/addCustomer")
-    public String addCustomer(@RequestParam String name,
-                              @RequestParam String email, Model model){
 
 
-        boolean customerExists = customerRepo.findByEmail(email).isPresent();
-        if (customerExists) {
-            model.addAttribute("error", "A customer with this email already exists.");
-            model.addAttribute("msg", "Detta e-postmeddelande finns redan.");
-            model.addAttribute("msgType", "danger");
-            return "register-customer.html";
-        }else {
 
-        model.addAttribute("name", name);
-        model.addAttribute("email", email);
-
-        customerRepo.save(new Customer(name,email));
-        model.addAttribute("msg", "Ny användare " + name + " har lagts till.");
-        model.addAttribute("msgType", "success");
-        return "register-customer.html";
-        }
-
-    }
 
 }

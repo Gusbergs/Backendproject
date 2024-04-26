@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/bookings")
 public class BookingController {
 
@@ -30,15 +31,18 @@ public class BookingController {
 
 
     @GetMapping("/all")
-    public List<BookingDtoDetailed> allBookings(){
+    public @ResponseBody List<BookingDtoDetailed> allBookings(){
         return bookingService.getAllBookingsDetailed();
     }
 
     @GetMapping("/allmini")
-    public List<BookingDtoMini> allBookingsMini(){
+    public @ResponseBody List<BookingDtoMini> allBookingsMini(){
         return bookingService.getAllBookingsMini();
     }
-
+    @RequestMapping("/Book-A-Room")
+    public String booking(){
+        return "book-room.html";
+    }
 
 
 }

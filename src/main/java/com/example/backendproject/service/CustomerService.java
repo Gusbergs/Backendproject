@@ -48,4 +48,15 @@ public class CustomerService {
         return customerRepo.findAll().stream().map(customer -> customerDtoMini(customer)).toList();
     }
 
+    public void saveCustomer(Customer customer) {
+        customerRepo.save(customer);
+    }
+
+
+    public boolean checkIfCustomerExist(String email){
+
+        return customerRepo.findByEmail(email).isPresent();
+
+    }
+
 }

@@ -1,0 +1,30 @@
+.bg-color {
+    background-color: black;
+}
+.service-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+}
+.service-btn {
+    background-color: black;
+    color: white;
+}
+.service-content a {
+    float: none;
+    background-color: black;
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.service-dropdown:hover .service-content {
+    display: block;
+}
+.navbar .bar h2 {
+    color: white;
+    font-size: 25px;
+}

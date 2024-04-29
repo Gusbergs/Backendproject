@@ -26,10 +26,10 @@ public class BookingController {
 
 
 
-    private BookingService bookingService;
-    private RoomService roomService;
+    private final BookingService bookingService;
+    private final RoomService roomService;
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     /*@Autowired
     public BookingController(BookingService bookingService, RoomService roomService) {
@@ -52,7 +52,7 @@ public class BookingController {
         return "book-room.html";
     }
 
-    @RequestMapping("/allBookings")
+    @GetMapping("/allBookings")
     public String showAllBooking(Model model){
 
         List<Booking> bookings = bookingService.findAllBookings();

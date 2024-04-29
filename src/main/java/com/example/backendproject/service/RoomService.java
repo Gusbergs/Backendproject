@@ -18,5 +18,8 @@ public class RoomService {
     }
 
     */
+    public boolean existsById(Long roomId) {
+        return repo.existsById(roomId);
+    }
 
 }

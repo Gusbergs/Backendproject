@@ -69,12 +69,12 @@
                     <td th:text = "'Check out date: ' + ${bookingRoom.checkOutDate}"></td>
                     <td th:text = "'Double room: ' + ${bookingRoom.roomDtoMini.doubleRoom}"></td>
                     <td th:text = "'Extra bed: ' + ${bookingRoom.roomDtoMini.extraBed}"></td>
-                    <td>
+                    <!--<td>
                         <form action="Search-customer/delete/{booking}&{customer}" method="get">
                             <input type="hidden" name = "booking" th:value = "${bookingRoom}">
-                            <input type="hidden" name="customer" th:value = "${bookingRoom.}">
+                            <input type="hidden" name="customer" th:value = "${bookingRoom}">
                         </form>
-                    </td>
+                    </td>-->
                     <td><hr></td>
                 </tr>
                 <!--<tr th:each = "bookingRoom : ${customer_booking_room}">

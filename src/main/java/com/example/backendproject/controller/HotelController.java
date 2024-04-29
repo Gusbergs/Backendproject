@@ -50,9 +50,9 @@ public class HotelController {
     public String showCustomerByEmail(@RequestParam String epost, Model model) {
         boolean isExist = false;
         CustomerDtoDetailed customer = null;
-        for (int i = 0; i < customerService.getAllListDtoDetailed().size(); i++) {
-            if (epost.equalsIgnoreCase(customerService.getAllListDtoDetailed().get(i).getEmail())) {
-                customer = customerService.getAllListDtoDetailed().get(i);
+        for (int i = 0; i < customerService.getAllCustomersDetailed().size(); i++) {
+            if (epost.equalsIgnoreCase(customerService.getAllCustomersDetailed().get(i).getEmail())) {
+                customer = customerService.getAllCustomersDetailed().get(i);
                 isExist = true;
                 break;
             }

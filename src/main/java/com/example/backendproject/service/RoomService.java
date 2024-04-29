@@ -5,18 +5,26 @@ import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
 public class RoomService {
 
-    final private RoomRepo repo;
+    final private RoomRepo roomRepo;
 
-   /* public RoomDtoDetailed roomDtoDetailed(Room room) {
-        return RoomDtoDetailed.builder().id(room.getId()).roomNumber(room.getRoomNumber()).doubleRoom(room.getDoubleroom)
+
+    @Autowired
+    public RoomService(RoomRepo roomRepo) {
+        this.roomRepo = roomRepo;
     }
 
-    */
+    public List<Room> getAllRooms() {
+
+        return roomRepo.findAll();
+    }
+
 
 }

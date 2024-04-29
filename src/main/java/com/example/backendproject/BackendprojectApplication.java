@@ -21,7 +21,7 @@ public class BackendprojectApplication {
 
 
 	}
-/*
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
@@ -69,5 +69,5 @@ public class BackendprojectApplication {
 
 
 	}
- */
+
 }

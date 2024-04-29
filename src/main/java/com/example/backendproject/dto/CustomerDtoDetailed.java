@@ -19,7 +19,7 @@ public class CustomerDtoDetailed {
 
     String email;
 
-    BookingDtoMini bookingDtoMini;
+    List<BookingDtoMini> bookingDtoMini;
 
     List<BookingDtoDetailed> bookingDtoList;
 

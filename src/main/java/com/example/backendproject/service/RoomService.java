@@ -1,37 +1,44 @@
 package com.example.backendproject.service;
 
+
+import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.dto.RoomDtoDetailed;
+import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RoomService {
 
-    private final RoomRepo repo;
+    final private RoomRepo roomRepo;
 
-    private final BookingService bookingService;
+   public RoomDtoDetailed roomDtoDetailed(Room room) {
+       List<BookingDtoMini> bookingDtos = room.getBookings().stream()
+               .map(booking -> new BookingDtoMini(booking.getId(), booking.getCheckInDate(), booking.getCheckOutDate()))
+               .collect(Collectors.toList());
 
-    public List<RoomDtoDetailed> getAllRoomList() {
-        return repo.findAll().stream().map(room -> RoomToRoomDetailedDto(room)).toList();
-    }
+       return RoomDtoDetailed.builder()
+               .id(room.getId())
+               .doubleRoom(room.isDoubleRoom())
+               .extraBed(room.getExtraBed())
+               .build();
+   }
 
+   public RoomDtoMini roomDtoMini(Room room) {
+       return RoomDtoMini.builder().id(room.getId()).roomNumber(room.getRoomNumber()).doubleRoom(room.isDoubleRoom()).extraBed(room.getExtraBed()).build();
+   }
+public List<RoomDtoDetailed> getAllRoomsDetailed(){
+       return roomRepo.findAll().stream().map(room -> roomDtoDetailed(room)).toList();
+}
 
-    public RoomDtoDetailed RoomToRoomDetailedDto(Room room) {
-        return RoomDtoDetailed.builder()
-                .id(room.getId())
-                .roomNumber(room.getRoomNumber())
-                .doubleRoom(room.isDoubleRoom())
-                .bookingDtoDetailedList(room
-                        .getBookingList()
-                        .stream()
-                        .map(booking -> bookingService.bookingDtoDetailed(booking))
-                        .toList())
-                .build();
+    public List<RoomDtoMini> getAllRoomsMini(){
+        return roomRepo.findAll().stream().map(room -> roomDtoMini(room)).toList();
     }
 
 }

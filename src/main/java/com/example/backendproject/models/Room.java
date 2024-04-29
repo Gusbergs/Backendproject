@@ -1,12 +1,7 @@
 package com.example.backendproject.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +9,8 @@ import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Room {
-
-
 
     @Id
     @GeneratedValue
@@ -31,9 +22,8 @@ public class Room {
 
     int extraBed;
 
-
-    @OneToMany(mappedBy = "room")
-    private List<Booking> bookingList;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Booking> bookings;
 
     public Room(int roomNumber, boolean doubleRoom, int extraBed){
         this.roomNumber = roomNumber;

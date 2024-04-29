@@ -4,8 +4,33 @@
   <meta charset="UTF-8">
   <title>Pensionatets bokningssystem</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link th:rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-black bg-color">
+  <div class="bar px-4 px-lg-5 d-flex justify-content-between align-items-center">
+    <h2 class="navbar-brand" href="#!">Hotel</h2>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+        <!--aria-current="page"-->
+        <li class="nav-item">
+          <a class="nav-link active" href="" style="color: white">Home</a>
+        </li>
+        <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
+          <div class = "service-content">
+            <form th:action="Book-A-Room" method="get"><input type="submit" value="Book a room"></form>
+            <form th:action="Register-customer" method="get"><input type="submit" value="Register customer"></form>
+            <form th:action="Search-customer" method="get"><input type="submit" value="Search your booking"></form>
+          </div>
+        </li>
+
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="container">
   <h1>Välkommen till vårt pensionat</h1>
   <hr>

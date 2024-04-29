@@ -1,0 +1,49 @@
+.bg-color {
+    background-color: black;
+}
+.service-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.service-btn {
+    background-color: black;
+    color: white;
+}
+.service-content form {
+    float: none;
+    background-color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.service-content form input {
+    background-color: black;
+    color: white;
+    border-style: hidden;
+}
+.service-dropdown:hover .service-content {
+    display: block;
+}
+.navbar .bar h2 {
+    color: white;
+    font-size: 25px;
+}
+
+.infoInterface {
+    padding: 20px;
+}
+
+.info_background {
+    background-color: lightblue;
+    padding: 20px;
+    border-style: groove;
+    border-radius: 25px;
+}
+
+.info_background h5 {
+    font-size: 40px;
+}

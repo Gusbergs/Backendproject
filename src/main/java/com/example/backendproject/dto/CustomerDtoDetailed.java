@@ -21,6 +21,8 @@ public class CustomerDtoDetailed {
 
     List<BookingDtoMini> bookingDtoMini;
 
+    List<BookingDtoDetailed> bookingDtoList;
+
 
 
 }

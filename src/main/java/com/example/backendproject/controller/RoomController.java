@@ -25,6 +25,6 @@ public class RoomController {
     public String getAllRooms(Model model) {
         List<RoomDtoMini> rooms = roomService.getAllRoomsMini();
         model.addAttribute("rooms", rooms);
-        return "rooms";
+        return "rooms"; // This should match the name of your HTML template file without the extension
     }
 }

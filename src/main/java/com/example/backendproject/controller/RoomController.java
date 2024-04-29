@@ -1,7 +1,6 @@
-// RoomController.java
 package com.example.backendproject.controller;
 
-import com.example.backendproject.models.Room;
+import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +14,17 @@ import java.util.List;
 @RequestMapping("/rooms")
 public class RoomController {
 
+    private final RoomService roomService;
+
     @Autowired
-    private RoomService roomService;
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
+    }
 
     @GetMapping("/all")
     public String getAllRooms(Model model) {
-        List<Room> rooms = roomService.getAllRooms();
+        List<RoomDtoMini> rooms = roomService.getAllRoomsMini();
         model.addAttribute("rooms", rooms);
-        return "rooms";
+        return "rooms"; // This should match the name of your HTML template file without the extension
     }
 }

@@ -4,8 +4,10 @@ package com.example.backendproject.controller;
 import com.example.backendproject.dto.BookingDtoDetailed;
 import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.models.Booking;
+import com.example.backendproject.models.Customer;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.service.BookingService;
+import com.example.backendproject.service.CustomerService;
 import com.example.backendproject.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/bookings")
+@RequiredArgsConstructor
 public class BookingController {
 
 
@@ -26,11 +29,13 @@ public class BookingController {
     private BookingService bookingService;
     private RoomService roomService;
 
-    @Autowired
+    private CustomerService customerService;
+
+    /*@Autowired
     public BookingController(BookingService bookingService, RoomService roomService) {
         this.bookingService = bookingService;
         this.roomService = roomService;
-    }
+    }*/
 
 
     @GetMapping("/all")
@@ -42,7 +47,7 @@ public class BookingController {
     public @ResponseBody List<BookingDtoMini> allBookingsMini(){
         return bookingService.getAllBookingsMini();
     }
-    @RequestMapping("/Book-A-Room")
+    @GetMapping("/Book-A-Room")
     public String booking(){
         return "book-room.html";
     }
@@ -55,6 +60,7 @@ public class BookingController {
         model.addAttribute("allaBokningar",bookings);
         return "bookings.html";
     }
+
 
     @RequestMapping("/allBookings/updateBooking/{id}")
     public String updateBooking(Model model,@PathVariable Long id){

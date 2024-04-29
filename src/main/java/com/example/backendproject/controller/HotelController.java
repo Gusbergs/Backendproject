@@ -20,7 +20,7 @@ public class HotelController {
     private final CustomerService customerService;
 
     private final BookingService bookingService;
-    @RequestMapping("/addCustomer")
+    /*@RequestMapping("/addCustomer")
     public String addingCustomer(){
         return "register-customer.html";
     }
@@ -40,12 +40,15 @@ public class HotelController {
         return "search-customer-email.html";
     }
 
-    /*@GetMapping("/Search-customer/delete/{booking}&{customer}")
+
+
+
+    @GetMapping("/Search-customer/delete/{booking}&{customer}")
     public String deleteCustomer(@PathVariable("booking") BookingDtoDetailed booking,
                                  @PathVariable("customer") CustomerDtoDetailed customer, Model model) {
         bookingService.deleteBooking(booking);
         return showCustomerByEmail(customer.getEmail(), model);
-    }*/
+    }
     @PostMapping("/Search-customer")
     public String showCustomerByEmail(@RequestParam String epost, Model model) {
         boolean isExist = false;
@@ -63,7 +66,7 @@ public class HotelController {
             model.addAttribute("customer_email", customer.getEmail());
             model.addAttribute("customer_booking_room", customer.getBookingDtoList());
             /*model.addAttribute("customer_booking_room", customer.getBookingDtoList()
-                    .stream().map(bookingDtoDetailed -> bookingDtoDetailed.getRoomDtoMini()).toList());*/
+                    .stream().map(bookingDtoDetailed -> bookingDtoDetailed.getRoomDtoMini()).toList());
         } else {
             String message = "No info is found";
             model.addAttribute("message", message);
@@ -95,6 +98,6 @@ public class HotelController {
         return "register-customer.html";
         }
 
-    }
+    }*/
 
 }

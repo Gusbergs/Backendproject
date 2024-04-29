@@ -8,6 +8,7 @@ import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.models.Customer;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +18,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/Customers")
+@RequiredArgsConstructor
 public class CustomerController {
 
 
 
     private final CustomerService customerService;
 
-    @Autowired
+    /*@Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-    }
+    }*/
 
 
     @GetMapping("/all")
@@ -38,7 +40,7 @@ public class CustomerController {
     public @ResponseBody List<CustomerDtoMini> allCustomersMini(){
         return customerService.getAllCustomersMini();
     }
-    @RequestMapping("/addCustomer")
+    @GetMapping("/addCustomer")
     public String addingCustomer(){
         return "register-customer.html";
     }

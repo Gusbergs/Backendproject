@@ -1,33 +1,30 @@
 package com.example.backendproject.controller;
 
-
-import com.example.backendproject.dto.RoomDtoDetailed;
-import com.example.backendproject.service.BookingService;
+import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/Bookings")
+@RequestMapping("/rooms")
 public class RoomController {
 
-    private RoomService roomService;
+    private final RoomService roomService;
 
     @Autowired
-    public RoomController(RoomService roomService){
-        this.roomService=roomService;
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
     }
 
-   /* @RequestMapping("/allRooms")
-    public @ResponseBody List<RoomDtoDetailed>  allRoomsDetil
-
-    */
-
-
-
-
+    @GetMapping("/all")
+    public String getAllRooms(Model model) {
+        List<RoomDtoMini> rooms = roomService.getAllRoomsMini();
+        model.addAttribute("rooms", rooms);
+        return "rooms"; // This should match the name of your HTML template file without the extension
+    }
 }

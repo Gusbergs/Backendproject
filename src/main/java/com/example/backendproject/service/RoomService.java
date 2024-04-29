@@ -41,4 +41,8 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
         return roomRepo.findAll().stream().map(room -> roomDtoMini(room)).toList();
     }
 
+    public boolean existsById(Long roomId) {
+        return roomRepo.existsById(roomId);
+    }
+
 }

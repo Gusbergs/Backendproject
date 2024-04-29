@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Room List</title>
+</head>
+<body>
+<h1>Room List</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Room Number</th>
+        <th>Double Room</th>
+        <th>Extra Bed</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="room : ${rooms}">
+        <td th:text="${room.id}">Room ID</td>
+        <td th:text="${room.roomNumber}">Room Number</td>
+        <td th:text="${room.doubleRoom ? 'Yes' : 'No'}">Double Room</td>
+        <td th:text="${room.extraBed}">Extra Bed</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -54,9 +54,7 @@ public class CustomerService {
 
 
     public boolean checkIfCustomerExist(String email){
-
         return customerRepo.findByEmail(email).isPresent();
-
     }
 
 }

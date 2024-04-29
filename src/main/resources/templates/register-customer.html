@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Pensionatets bokningssystem</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="styles.css" rel="stylesheet">
+  <link th:rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-black bg-color">
@@ -19,8 +19,9 @@
         </li>
         <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
           <div class = "service-content">
-            <a href="book-room.html">Book a room</a>
-            <a href="register-customer.html">Register customer</a>
+            <form th:action="Book-A-Room" method="get"><input type="submit" value="Book a room"></form>
+            <form th:action="Register-customer" method="get"><input type="submit" value="Register customer"></form>
+            <form th:action="Search-customer" method="get"><input type="submit" value="Search your booking"></form>
           </div>
         </li>
 

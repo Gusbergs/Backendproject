@@ -6,6 +6,8 @@ import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.models.Booking;
+import com.example.backendproject.models.Customer;
+import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +50,19 @@ public class BookingService {
     public List<BookingDtoMini> getAllBookingsMini(){
         return bookingRepo.findAll().stream().map(booking -> bookingtoDtoMini(booking)).toList();
     }
+
+    public Booking BookingDtoToBooking(BookingDtoDetailed bookingDtoDetailed, Customer customer, Room room) {
+        return Booking.builder()
+                .id(bookingDtoDetailed.getId())
+                .checkInDate(bookingDtoDetailed.getCheckInDate())
+                .checkOutDate(bookingDtoDetailed.getCheckOutDate())
+                .room(room)
+                .customer(customer)
+                .build();
+    }
+
+    /*public void deleteBooking(BookingDtoDetailed booking) {
+        bookingRepo.deleteById(booking.getId());
+    }*/
 
 }

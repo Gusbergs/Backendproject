@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pensionatets bokningssystem</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        td {
+            display: block;
+            margin-bottom: 1em; /* Adjust this value to control the space between cells */
+        }
+    </style>
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-black bg-color">
+    <div class="bar px-4 px-lg-5 d-flex justify-content-between align-items-center">
+        <h2 class="navbar-brand" href="#!">Hotel</h2>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!--aria-current="page"-->
+                <li class="nav-item">
+                    <a class="nav-link active" href="" style="color: white">Home</a>
+                </li>
+                <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
+                    <div class = "service-content">
+                        <form th:action="Book-A-Room" method="get"><input type="submit" value="Book a room"></form>
+                        <form th:action="Register-customer" method="get"><input type="submit" value="Register customer"></form>
+                        <form th:action="Search-customer" method="get"><input type="submit" value="Search your booking"></form>
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h1>Välkommen till vårt pensionat</h1>
+    <hr>
+    <h2>Sök din info</h2>
+    <hr>
+
+    <form action="Search-customer" method="post">
+        <label for="epost">E-post:</label><br>
+        <input type = "text" id = "epost" name="epost" placeholder="t.ex 123@mail.com"><br><br>
+        <button type="submit" class="btn btn-success">Sök</button>
+    </form>
+
+    <div th:if="${isExist == true}" class = "infoInterface">
+        <div class = "info_background">
+            <h5>Kund informationen:</h5>
+            <br>
+            <p th:text = "'Name: ' + ${customer_name}"></p>
+            <p th:text = "'Email: ' + ${customer_email}"></p>
+        </div>
+        <br>
+        <div class="info_background">
+            <table>
+                <h5>Din bokning:</h5>
+                <br>
+                <tr th:each = "bookingRoom: ${customer_booking_room}">
+                    <td th:text = "'Room number: '+ ${bookingRoom.roomDtoMini.roomNumber}"></td>
+                    <td th:text = "'Check in date: ' + ${bookingRoom.checkInDate}"></td>
+                    <td th:text = "'Check out date: ' + ${bookingRoom.checkOutDate}"></td>
+                    <td th:text = "'Double room: ' + ${bookingRoom.roomDtoMini.doubleRoom}"></td>
+                    <td th:text = "'Extra bed: ' + ${bookingRoom.roomDtoMini.extraBed}"></td>
+                    <td>
+                        <form action="Search-customer/delete/{booking}&{customer}" method="get">
+                            <input type="hidden" name = "booking" th:value = "${bookingRoom}">
+                            <input type="hidden" name="customer" th:value = "${bookingRoom.}">
+                        </form>
+                    </td>
+                    <td><hr></td>
+                </tr>
+                <!--<tr th:each = "bookingRoom : ${customer_booking_room}">
+                       <td th:text = "'Room number: '+ ${bookingRoom.getRoomNumber()}"></td>
+                       <td th:text = "'Checkin date: ' + ${customer_booking_info}"></td>
+                       <td th:text = "'Double room: ' +${bookingRoom.isDoubleRoom()}"></td>
+                       <td th:text = "'Extra bed: ' +${bookingRoom.getExtraBed()}"></td>
+                   </tr>-->
+            </table>
+        </div>
+        <!--<p th:text = "'Rooms' + ${customer_booking_room}"></p>-->
+    </div>
+    <div th:if="${isExist == false}">
+        <p th:text = "${message}"></p>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var isExist = /*[[${isExist}]]*/ '';
+
+    /*]]>*/
+</script>
+
+
+</body>
+</html>

@@ -19,8 +19,11 @@
         </li>
         <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
           <div class = "service-content">
-            <form action="bookings/Book-A-Room" method="get"><input type="submit" value="Book a room"></form>
-            <form action="Customer/addCustomer" method="get"><input type="submit" value="Register customer"></form>
+            <form th:action="Book-A-Room" method="get"><input type="submit" value="Book a room"></form>
+            <form th:action="Register-customer" method="get"><input type="submit" value="Register customer"></form>
+            <form th:action="Search-customer" method="get"><input type="submit" value="Search your booking"></form>
+            <form th:action="rooms" method="get"><input type="submit" value="All rooms"></form>
+
           </div>
         </li>
 

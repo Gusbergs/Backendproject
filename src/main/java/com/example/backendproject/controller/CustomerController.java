@@ -1,10 +1,7 @@
 package com.example.backendproject.controller;
 
 
-import com.example.backendproject.dto.BookingDtoDetailed;
-import com.example.backendproject.dto.BookingDtoMini;
-import com.example.backendproject.dto.CustomerDtoDetailed;
-import com.example.backendproject.dto.CustomerDtoMini;
+import com.example.backendproject.dto.*;
 import com.example.backendproject.models.Customer;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
@@ -25,25 +22,25 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    /*@Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }*/
 
 
-    @GetMapping("/all")
-    public @ResponseBody List<CustomerDtoDetailed> allCustomersDetailed(){
-        return customerService.getAllCustomersDetailed();
+
+
+
+    @GetMapping("/addCustomer")
+    public String allCustomers(Model model) {
+        List<CustomerDtoMini> customers = customerService.getAllCustomersMini();
+        model.addAttribute("customers", customers);
+        return "register-customer.html";
     }
 
     @GetMapping("/allmini")
     public @ResponseBody List<CustomerDtoMini> allCustomersMini(){
         return customerService.getAllCustomersMini();
     }
-    @GetMapping("/addCustomer")
-    public String addingCustomer(){
-        return "register-customer.html";
-    }
+
+
+
 
     @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam String name,
@@ -62,9 +59,13 @@ public class CustomerController {
             customerService.saveCustomer(new Customer(name, email));
             model.addAttribute("msg", "Ny användare " + name + " har lagts till.");
             model.addAttribute("msgType", "success");
-            return "register-customer.html";
+            return "redirect:/Customers/addCustomer";
         }
     }
-
+    @PostMapping("/delete/{customerId}")
+    public String deleteCustomer(@PathVariable Long customerId) {
+        customerService.deleteCustomer(customerId);
+        return "redirect:/Customers/addCustomer";
+    }
 
 }

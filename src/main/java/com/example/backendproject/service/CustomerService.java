@@ -74,4 +74,8 @@ public class CustomerService {
         return dto;
     }
 
+    public void deleteCustomer(Long customerId) {
+        customerRepo.deleteById(customerId);
+    }
+
 }

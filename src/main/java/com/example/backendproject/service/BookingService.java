@@ -75,7 +75,7 @@ public class BookingService {
             }
         } catch (Exception e) {
             logger.error("An error occurred while deleting booking with ID {}: {}", id, e.getMessage());
-            // Optionally, you can throw a custom exception or handle the error as appropriate.
+
             throw new RuntimeException("Failed to delete booking with ID " + id, e);
         }
     }

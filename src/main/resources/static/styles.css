@@ -49,7 +49,9 @@
 }
 
 .warning {
-    font-size: 25px;
-    color: red;
-    font-weight: bold;
+    padding: 15px;
+    background-color: darksalmon;
+    border-radius: 15px;
+    font-size: 15px;
+    color: darkred;
 }

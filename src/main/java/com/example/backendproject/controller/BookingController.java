@@ -74,7 +74,12 @@ public class BookingController {
                 break;
             }
         }
-        if (!findCrossedTime(startDate, endDate, comparingRoom)) {
+        if (comparingRoom == null) {
+            model.addAttribute("error_message", "Rumsnumret finns inte");
+            model.addAttribute("isAvailable", false);
+            return "book-room.html";
+        } else if (!findCrossedTime(startDate, endDate, comparingRoom)) {
+            model.addAttribute("error_message", "Bokningsperioden är redan bokad");
             model.addAttribute("isAvailable", findCrossedTime(startDate, endDate, comparingRoom));
             return "book-room.html";
         } else {

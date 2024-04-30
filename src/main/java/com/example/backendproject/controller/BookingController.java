@@ -4,6 +4,7 @@ package com.example.backendproject.controller;
 import com.example.backendproject.dto.BookingDtoDetailed;
 import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.models.Booking;
+import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.RoomService;
@@ -98,6 +99,17 @@ public class BookingController {
         bookingService.deleteBookingById(id);
 
         return "redirect:/bookings/allBookings";
+    }
+
+    @PostMapping
+    public String bookRoom(@RequestParam Room roomId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate, Model model) {
+        boolean result = bookingService.createBooking(roomId, startDate, endDate);
+        if (result) {
+            model.addAttribute("message", "Bokning skapad!");
+        } else {
+            model.addAttribute("message", "Rummet är redan bokat för angivna datum.");
+        }
+        return "book";  // Namnet på Thymeleaf-vyn som ska renderas
     }
 
 

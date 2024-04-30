@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,5 +83,22 @@ public class BookingService {
 
             bookingRepo.save(booking);
         });
+    }
+
+    @Transactional
+    public boolean createBooking(Room room, LocalDate startDate, LocalDate endDate) {
+        // Kontrollerar om det finns några överlappande bokningar för det angivna rummet och datumintervallet
+        List<Booking> existingBookings = bookingRepo.findBookingsByDateRangeAndRoom(room.getId(), startDate, endDate);
+        if (!existingBookings.isEmpty()) {
+            return false;  // Det finns en överlappande bokning, returnera false
+        }
+
+        // Skapar och sparar en ny bokning
+        Booking newBooking = new Booking();
+        newBooking.setRoom(new Room(room.getRoomNumber(), room.isDoubleRoom(), room.getExtraBed()));  // Antag att Room-konstruktören bara ställer in ID
+        newBooking.setCheckInDate(startDate);
+        newBooking.setCheckOutDate(endDate);
+        bookingRepo.save(newBooking);
+        return true;  // Bokningen lyckades, returnera true
     }
 }

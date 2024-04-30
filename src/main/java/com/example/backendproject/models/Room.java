@@ -22,7 +22,7 @@ public class Room {
 
     int extraBed;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
     public Room(int roomNumber, boolean doubleRoom, int extraBed){

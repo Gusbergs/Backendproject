@@ -8,8 +8,10 @@ import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
+import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,11 @@ import java.util.Optional;
 public class BookingService {
 
 
-    final private BookingRepo bookingRepo;
+    @Autowired
+    private BookingRepo bookingRepo;
+
     final private RoomRepo roomRepo;
+    private final CustomerRepo customerRepo;
 
 
     public BookingDtoDetailed bookingDtoDetailed(Booking booking) {
@@ -43,6 +48,11 @@ public class BookingService {
                 .checkOutDate(booking.getCheckOutDate()).build();
     }
 
+    public BookingDtoDetailed getBookingById2(Long id) {
+        Booking booking = bookingRepo.getReferenceById(id);
+        return bookingDtoDetailed(booking);
+    }
+
 
     public List<BookingDtoDetailed> getAllBookingsDetailed(){
         return bookingRepo.findAll().stream().map(booking -> bookingDtoDetailed(booking)).toList();
@@ -58,7 +68,7 @@ public class BookingService {
     @Transactional
     public void deleteBookingById(Long id) { // körs men deletar ej
         if (bookingRepo.existsById(id)) {
-            System.out.println("booking does exist");
+
             bookingRepo.deleteById(id);
 
         } else {
@@ -69,6 +79,8 @@ public class BookingService {
     public Optional<Booking> findBookingById(Long id) {
         return bookingRepo.findById(id);
     }
+
+
 
     public void updateBookingById(Long id, LocalDate newCheckInDate, LocalDate newCheckOutDate, Long roomId) {
         bookingRepo.findById(id).ifPresent(booking -> {
@@ -83,4 +95,5 @@ public class BookingService {
             bookingRepo.save(booking);
         });
     }
+
 }

@@ -25,7 +25,7 @@ public class Customer {
     String name;
 
     String email;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
     public Customer(String name, String email){

@@ -18,6 +18,8 @@ public class RoomService {
 
     final private RoomRepo roomRepo;
 
+    final private BookingService bookingService;
+
    public RoomDtoDetailed roomDtoDetailed(Room room) {
        List<BookingDtoMini> bookingDtos = room.getBookings().stream()
                .map(booking -> new BookingDtoMini(booking.getId(), booking.getCheckInDate(), booking.getCheckOutDate()))
@@ -25,8 +27,13 @@ public class RoomService {
 
        return RoomDtoDetailed.builder()
                .id(room.getId())
+               .roomNumber(room.getRoomNumber())
                .doubleRoom(room.isDoubleRoom())
                .extraBed(room.getExtraBed())
+               .bookingDtoDetailedList(room.getBookings()
+                       .stream()
+                       .map(booking -> bookingService.bookingDtoDetailed(booking))
+                       .toList())
                .build();
    }
 

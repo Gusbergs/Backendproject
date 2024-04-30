@@ -55,7 +55,11 @@
       <label for="endDate">Slutdatum:</label>
       <input type="date" id="endDate" name="endDate" class="form-control" required>
     </div>
+    <div th:if = "${isAvailable} == false">
+      <p class = "warning">Bokningstid är otillgängligt</p>
+    </div>
     <button type="submit" class="btn btn-success">Boka rum</button>
+
   </form>
   </table>
 </div>

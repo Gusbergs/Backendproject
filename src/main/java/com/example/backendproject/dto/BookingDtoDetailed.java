@@ -18,5 +18,4 @@ public class BookingDtoDetailed {
     LocalDate checkOutDate;
     CustomerDtoMini customerDtoMini;
     RoomDtoMini roomDtoMini;
-
 }

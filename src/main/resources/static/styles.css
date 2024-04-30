@@ -47,3 +47,9 @@
 .info_background h5 {
     font-size: 40px;
 }
+
+.warning {
+    font-size: 25px;
+    color: red;
+    font-weight: bold;
+}

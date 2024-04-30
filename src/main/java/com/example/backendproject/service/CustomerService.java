@@ -57,4 +57,21 @@ public class CustomerService {
         return customerRepo.findByEmail(email).isPresent();
     }
 
+    public CustomerDtoDetailed getCustomerById(Long customerId) {
+
+        return customerRepo.findById(customerId)
+                .map(this::convertToDtoDetailed)
+                .orElse(null);
+    }
+
+    private CustomerDtoDetailed convertToDtoDetailed(Customer customer) {
+
+        CustomerDtoDetailed dto = new CustomerDtoDetailed();
+        dto.setId(customer.getId());
+        dto.setName(customer.getName());
+        dto.setEmail(customer.getEmail());
+
+        return dto;
+    }
+
 }

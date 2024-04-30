@@ -10,6 +10,8 @@ import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,15 @@ import java.util.Optional;
 public class BookingService {
 
 
-    final private BookingRepo bookingRepo;
+
     final private RoomRepo roomRepo;
+
+    final private BookingRepo bookingRepo;
+
+    private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
+
+
+
 
 
     public BookingDtoDetailed bookingDtoDetailed(Booking booking) {
@@ -56,13 +65,18 @@ public class BookingService {
         return bookingRepo.findAll();
     }
     @Transactional
-    public void deleteBookingById(Long id) { // körs men deletar ej
-        if (bookingRepo.existsById(id)) {
-            System.out.println("booking does exist");
-            bookingRepo.deleteById(id);
-
-        } else {
-            System.out.println("booking does not exist!");
+    public void deleteBookingById(Long id) {
+        try {
+            if (bookingRepo.existsById(id)) {
+                bookingRepo.deleteById(id);
+                logger.info("Booking with ID {} has been deleted successfully.", id);
+            } else {
+                logger.warn("Booking with ID {} does not exist.", id);
+            }
+        } catch (Exception e) {
+            logger.error("An error occurred while deleting booking with ID {}: {}", id, e.getMessage());
+            // Optionally, you can throw a custom exception or handle the error as appropriate.
+            throw new RuntimeException("Failed to delete booking with ID " + id, e);
         }
     }
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -63,8 +64,17 @@ public class CustomerController {
         }
     }
     @PostMapping("/delete/{customerId}")
-    public String deleteCustomer(@PathVariable Long customerId) {
-        customerService.deleteCustomer(customerId);
+    public String deleteCustomer(@PathVariable Long customerId, RedirectAttributes redirectAttributes) {
+        if (customerService.customerHasABooking(customerId)) {
+
+            redirectAttributes.addFlashAttribute("deleteCustomerMsg", "Kunden kan inte tas bort eftersom det finns bokningar.");
+            redirectAttributes.addFlashAttribute("msgType2", "danger");
+        } else {
+
+            customerService.deleteCustomer(customerId);
+            redirectAttributes.addFlashAttribute("deleteCustomerMsg", "Användaren har tagits bort.");
+            redirectAttributes.addFlashAttribute("msgType2", "success");
+        }
         return "redirect:/Customers/addCustomer";
     }
 

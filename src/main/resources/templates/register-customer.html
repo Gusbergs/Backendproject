@@ -54,6 +54,7 @@
   <h1>Kunder</h1>
   <table border="1">
     <thead>
+  <span th:if="${deleteCustomerMsg}" th:text="${deleteCustomerMsg}" th:class="${'text-' + msgType2}"></span>
     <tr>
       <th>ID</th>
       <th>Name</th>

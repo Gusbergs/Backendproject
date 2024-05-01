@@ -50,6 +50,7 @@
         </tr>
         </thead>
         <tbody>
+        <span th:if="${deleteBookingMsg}" th:text="${deleteBookingMsg}" th:class="${'text-' + msgType}"></span>
         <tr th:each="booking : ${allaBokningar}">
             <td th:text="${booking.id}"></td>
             <td th:text="${booking.checkInDate}"></td>

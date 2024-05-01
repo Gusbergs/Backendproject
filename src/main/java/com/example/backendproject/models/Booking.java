@@ -46,6 +46,14 @@ public class Booking {
         this.customer = customer;
 
     }
+    public Booking (Long id,LocalDate checkInDate, LocalDate checkOutDate,Room room, Customer customer){
+        this.id = id;
+        this.checkInDate= checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.room = room;
+        this.customer = customer;
+
+    }
 
 
 }

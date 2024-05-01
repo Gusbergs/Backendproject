@@ -6,6 +6,7 @@ import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.models.Booking;
+import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.RoomRepo;
@@ -86,7 +87,7 @@ public class BookingService {
     }
 
     @Transactional
-    public boolean createBooking(Room room, LocalDate startDate, LocalDate endDate) {
+    public boolean createBooking(Customer customer, Room room, LocalDate startDate, LocalDate endDate) {
         // Kontrollerar om det finns några överlappande bokningar för det angivna rummet och datumintervallet
         List<Booking> existingBookings = bookingRepo.findBookingsByDateRangeAndRoom(room.getId(), startDate, endDate);
         if (!existingBookings.isEmpty()) {
@@ -95,9 +96,10 @@ public class BookingService {
 
         // Skapar och sparar en ny bokning
         Booking newBooking = new Booking();
-        newBooking.setRoom(new Room(room.getRoomNumber(), room.isDoubleRoom(), room.getExtraBed()));  // Antag att Room-konstruktören bara ställer in ID
+        newBooking.setRoom(new Room(room.getRoomNumber(), room.isDoubleRoom(), room.getExtraBed()));
         newBooking.setCheckInDate(startDate);
         newBooking.setCheckOutDate(endDate);
+        newBooking.setCustomer(customer);
         bookingRepo.save(newBooking);
         return true;  // Bokningen lyckades, returnera true
     }

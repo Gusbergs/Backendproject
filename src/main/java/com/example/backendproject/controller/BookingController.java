@@ -88,7 +88,7 @@ public class BookingController {
             model.addAttribute("roomMsg", "Room ID: "+roomId +" finns inte.");
             return "update-booking.html";
         }
-        // else if datumet är redan bokat då så går roomMsg bort och så får man ett dateErrorMsg istället
+
 
 
         bookingService.updateBookingById(id, startDate, endDate, roomId);

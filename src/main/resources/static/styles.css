@@ -55,3 +55,9 @@
     font-size: 15px;
     color: darkred;
 }
+
+.head {
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+}

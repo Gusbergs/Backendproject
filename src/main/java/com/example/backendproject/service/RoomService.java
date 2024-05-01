@@ -21,9 +21,9 @@ public class RoomService {
     final private BookingService bookingService;
 
    public RoomDtoDetailed roomDtoDetailed(Room room) {
-       List<BookingDtoMini> bookingDtos = room.getBookings().stream()
+       /*List<BookingDtoMini> bookingDtos = room.getBookings().stream()
                .map(booking -> new BookingDtoMini(booking.getId(), booking.getCheckInDate(), booking.getCheckOutDate()))
-               .collect(Collectors.toList());
+               .collect(Collectors.toList());*/
 
        return RoomDtoDetailed.builder()
                .id(room.getId())
@@ -51,5 +51,7 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
     public boolean existsById(Long roomId) {
         return roomRepo.existsById(roomId);
     }
+
+    //For testing only
 
 }

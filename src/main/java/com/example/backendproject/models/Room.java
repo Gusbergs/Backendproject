@@ -30,6 +30,12 @@ public class Room {
         this.doubleRoom = doubleRoom;
         this.extraBed = extraBed;
     }
+    public Room(Long id,int roomNumber, boolean doubleRoom, int extraBed){
+        this.id = id;
+        this.roomNumber = roomNumber;
+        this.doubleRoom = doubleRoom;
+        this.extraBed = extraBed;
+    }
 
 
 }

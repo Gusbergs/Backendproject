@@ -7,6 +7,7 @@ import com.example.backendproject.dto.CustomerDtoDetailed;
 import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
+import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class CustomerService {
 
 
     final private CustomerRepo customerRepo;
+    final private BookingRepo bookingRepo;
 
     public CustomerDtoDetailed customerDtoDetailed(Customer customer) {
         List<BookingDtoMini> bookingDtos = customer.getBookings().stream()
@@ -55,6 +57,32 @@ public class CustomerService {
 
     public boolean checkIfCustomerExist(String email){
         return customerRepo.findByEmail(email).isPresent();
+    }
+
+    public CustomerDtoDetailed getCustomerById(Long customerId) {
+
+        return customerRepo.findById(customerId)
+                .map(this::convertToDtoDetailed)
+                .orElse(null);
+    }
+
+    private CustomerDtoDetailed convertToDtoDetailed(Customer customer) {
+
+        CustomerDtoDetailed dto = new CustomerDtoDetailed();
+        dto.setId(customer.getId());
+        dto.setName(customer.getName());
+        dto.setEmail(customer.getEmail());
+
+        return dto;
+    }
+
+    public void deleteCustomer(Long customerId) {
+        customerRepo.deleteById(customerId);
+    }
+
+    public boolean customerHasABooking(Long customerId) {
+        List<Booking> bookings = bookingRepo.findByCustomerId(customerId);
+        return !bookings.isEmpty();
     }
 
 }

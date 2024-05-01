@@ -19,8 +19,11 @@ public class HotelController {
 
     private final CustomerService customerService;
 
+
+
+
     private final BookingService bookingService;
-    /*@RequestMapping("/addCustomer")
+    @RequestMapping("/addCustomer")
     public String addingCustomer(){
         return "register-customer.html";
     }
@@ -43,12 +46,24 @@ public class HotelController {
 
 
 
-    @GetMapping("/Search-customer/delete/{booking}&{customer}")
-    public String deleteCustomer(@PathVariable("booking") BookingDtoDetailed booking,
-                                 @PathVariable("customer") CustomerDtoDetailed customer, Model model) {
-        bookingService.deleteBooking(booking);
-        return showCustomerByEmail(customer.getEmail(), model);
+
+    @GetMapping("/Search-customer/delete/{bookingId}&{customerId}")
+    public String deleteCustomer(@PathVariable("bookingId") Long bookingId,
+                                 @PathVariable("customerId") Long customerId, Model model) {
+        bookingService.deleteBookingById(bookingId);
+        CustomerDtoDetailed customer = customerService.getCustomerById(customerId);
+        if (customer != null) {
+            return showCustomerByEmail(customer.getEmail(), model);
+        } else {
+
+            return "error";
+        }
     }
+
+
+
+
+
     @PostMapping("/Search-customer")
     public String showCustomerByEmail(@RequestParam String epost, Model model) {
         boolean isExist = false;
@@ -65,7 +80,7 @@ public class HotelController {
             model.addAttribute("customer_name", customer.getName());
             model.addAttribute("customer_email", customer.getEmail());
             model.addAttribute("customer_booking_room", customer.getBookingDtoList());
-            /*model.addAttribute("customer_booking_room", customer.getBookingDtoList()
+            model.addAttribute("customer_booking_room", customer.getBookingDtoList()
                     .stream().map(bookingDtoDetailed -> bookingDtoDetailed.getRoomDtoMini()).toList());
         } else {
             String message = "No info is found";
@@ -75,6 +90,8 @@ public class HotelController {
         model.addAttribute("isExist", isExist);
         return "search-customer-email.html";
     }
+
+
 
     @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam String name,
@@ -98,6 +115,6 @@ public class HotelController {
         return "register-customer.html";
         }
 
-    }*/
+    }
 
 }

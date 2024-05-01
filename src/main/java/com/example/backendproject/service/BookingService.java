@@ -1,13 +1,18 @@
 package com.example.backendproject.service;
 
 
-import com.example.backendproject.dto.*;
+import com.example.backendproject.dto.BookingDtoDetailed;
+import com.example.backendproject.dto.BookingDtoMini;
+import com.example.backendproject.dto.CustomerDtoMini;
+import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +32,11 @@ public class BookingService {
 
     final private RoomRepo roomRepo;
     private final CustomerRepo customerRepo;
+
+    private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
+
+
+
 
 
     public BookingDtoDetailed bookingDtoDetailed(Booking booking) {
@@ -86,21 +96,24 @@ public class BookingService {
         return bookingRepo.findAll();
     }
     @Transactional
-    public void deleteBookingById(Long id) { // körs men deletar ej
-        if (bookingRepo.existsById(id)) {
+    public void deleteBookingById(Long id) {
+        try {
+            if (bookingRepo.existsById(id)) {
+                bookingRepo.deleteById(id);
+                logger.info("Booking with ID {} has been deleted successfully.", id);
+            } else {
+                logger.warn("Booking with ID {} does not exist.", id);
+            }
+        } catch (Exception e) {
+            logger.error("An error occurred while deleting booking with ID {}: {}", id, e.getMessage());
 
-            bookingRepo.deleteById(id);
-
-        } else {
-            System.out.println("booking does not exist!");
+            throw new RuntimeException("Failed to delete booking with ID " + id, e);
         }
     }
 
     public Optional<Booking> findBookingById(Long id) {
         return bookingRepo.findById(id);
     }
-
-
 
     public void updateBookingById(Long id, LocalDate newCheckInDate, LocalDate newCheckOutDate, Long roomId) {
         bookingRepo.findById(id).ifPresent(booking -> {
@@ -115,5 +128,4 @@ public class BookingService {
             bookingRepo.save(booking);
         });
     }
-
 }

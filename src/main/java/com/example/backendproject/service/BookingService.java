@@ -1,10 +1,7 @@
 package com.example.backendproject.service;
 
 
-import com.example.backendproject.dto.BookingDtoDetailed;
-import com.example.backendproject.dto.BookingDtoMini;
-import com.example.backendproject.dto.CustomerDtoMini;
-import com.example.backendproject.dto.RoomDtoMini;
+import com.example.backendproject.dto.*;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;

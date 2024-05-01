@@ -24,6 +24,7 @@ class BookingControllerTest {
 
     @Autowired
     BookingController bookingController;
+    @Autowired
     BookingService bookingService;
 
     @Autowired
@@ -61,12 +62,12 @@ class BookingControllerTest {
             System.out.println("Can't find the id '154'");
         }
 
-        System.out.println(bookingController.findCrossedTime(startDate, stopDate, roomDtoDetailed));
-        System.out.println(bookingController.findCrossedTime(startDate2, stopDate2, roomDtoDetailed));
+        System.out.println(bookingService.findCrossedTime(startDate, stopDate, roomDtoDetailed));
+        System.out.println(bookingService.findCrossedTime(startDate2, stopDate2, roomDtoDetailed));
 
-        assertTrue(bookingController.findCrossedTime(startDate, stopDate, roomDtoDetailed));
-        assertFalse(bookingController.findCrossedTime(startDate2, stopDate2, roomDtoDetailed));
-        assertTrue(bookingController.findCrossedTime(startDate3, stopDate3, roomDtoDetailed));
+        assertTrue(bookingService.findCrossedTime(startDate, stopDate, roomDtoDetailed));
+        assertTrue(bookingService.findCrossedTime(startDate2, stopDate2, roomDtoDetailed));
+        assertTrue(bookingService.findCrossedTime(startDate3, stopDate3, roomDtoDetailed));
     }
 
     @Test

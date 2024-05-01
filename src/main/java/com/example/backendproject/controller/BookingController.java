@@ -78,9 +78,9 @@ public class BookingController {
             model.addAttribute("error_message", "Rumsnumret finns inte");
             model.addAttribute("isAvailable", false);
             return "book-room.html";
-        } else if (!findCrossedTime(startDate, endDate, comparingRoom)) {
+        } else if (!bookingService.findCrossedTime(startDate, endDate, comparingRoom)) {
             model.addAttribute("error_message", "Bokningsperioden är redan bokad");
-            model.addAttribute("isAvailable", findCrossedTime(startDate, endDate, comparingRoom));
+            model.addAttribute("isAvailable", bookingService.findCrossedTime(startDate, endDate, comparingRoom));
             return "book-room.html";
         } else {
             Room bookedRoom = roomRepo.getReferenceById(roomId);
@@ -90,28 +90,7 @@ public class BookingController {
         }
     }
     
-    public boolean findCrossedTime(LocalDate start, LocalDate stop, RoomDtoDetailed room) {
-        boolean isAvaliable = false;
 
-        if (room.getBookingDtoDetailedList().isEmpty()) {
-            isAvaliable = true;
-        } else {
-            for (BookingDtoDetailed books : room.getBookingDtoDetailedList()) {
-                System.out.println("Check in: " + books.getCheckInDate() + "\n" +
-                        "Check out: " + books.getCheckOutDate());
-                if (books.getCheckInDate().isAfter(start) && books.getCheckInDate().isAfter(stop)) {
-                    isAvaliable = true;
-                } else if (books.getCheckOutDate().isBefore(start) && books.getCheckOutDate().isBefore(stop)) {
-                    isAvaliable = true;
-                } else {
-                    isAvaliable = false;
-                    break;
-                }
-            }
-        }
-
-        return isAvaliable;
-    }
 
     @GetMapping("/allBookings")
     public String showAllBooking(Model model){

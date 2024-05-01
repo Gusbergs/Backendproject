@@ -1,17 +1,16 @@
 package com.example.backendproject.service;
 
 
-import com.example.backendproject.dto.BookingDtoDetailed;
-import com.example.backendproject.dto.BookingDtoMini;
-import com.example.backendproject.dto.CustomerDtoMini;
-import com.example.backendproject.dto.RoomDtoMini;
+import com.example.backendproject.dto.*;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
+import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +24,11 @@ import java.util.Optional;
 public class BookingService {
 
 
+    @Autowired
+    private BookingRepo bookingRepo;
 
     final private RoomRepo roomRepo;
-
-    final private BookingRepo bookingRepo;
+    private final CustomerRepo customerRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
 
@@ -50,6 +50,34 @@ public class BookingService {
     public BookingDtoMini bookingtoDtoMini(Booking booking) {
         return BookingDtoMini.builder().id(booking.getId()).checkInDate(booking.getCheckInDate())
                 .checkOutDate(booking.getCheckOutDate()).build();
+    }
+
+    public boolean findCrossedTime(LocalDate start, LocalDate stop, RoomDtoDetailed room) {
+        boolean isAvaliable = false;
+
+        if (room.getBookingDtoDetailedList().isEmpty()) {
+            isAvaliable = true;
+        } else {
+            for (BookingDtoDetailed books : room.getBookingDtoDetailedList()) {
+                System.out.println("Check in: " + books.getCheckInDate() + "\n" +
+                        "Check out: " + books.getCheckOutDate());
+                if (books.getCheckInDate().isAfter(start) && books.getCheckInDate().isAfter(stop)) {
+                    isAvaliable = true;
+                } else if (books.getCheckOutDate().isBefore(start) && books.getCheckOutDate().isBefore(stop)) {
+                    isAvaliable = true;
+                } else {
+                    isAvaliable = false;
+                    break;
+                }
+            }
+        }
+
+        return isAvaliable;
+    }
+
+    public BookingDtoDetailed getBookingById2(Long id) {
+        Booking booking = bookingRepo.getReferenceById(id);
+        return bookingDtoDetailed(booking);
     }
 
 

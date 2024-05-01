@@ -3,9 +3,13 @@ package com.example.backendproject.controller;
 
 import com.example.backendproject.dto.BookingDtoDetailed;
 import com.example.backendproject.dto.BookingDtoMini;
+import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
+import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
+import com.example.backendproject.repo.CustomerRepo;
+import com.example.backendproject.repo.RoomRepo;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
 import com.example.backendproject.service.RoomService;
@@ -29,6 +33,10 @@ public class BookingController {
     private final BookingService bookingService;
     private final RoomService roomService;
 
+    private final CustomerRepo customerRepo;
+    private final RoomRepo roomRepo;
+
+    private final BookingRepo bookingRepo;
     private final CustomerService customerService;
 
     /*@Autowired
@@ -51,6 +59,38 @@ public class BookingController {
     public String booking(){
         return "book-room.html";
     }
+
+    @PostMapping("/Book-A-Room")
+    public String bookingSuccession(@RequestParam LocalDate startDate,
+                                    @RequestParam LocalDate endDate,
+                                    @RequestParam Long roomId,
+                                    @RequestParam Long customerId,
+                                    Model model) {
+        List<RoomDtoDetailed> roomList = roomService.getAllRoomsDetailed();
+        RoomDtoDetailed comparingRoom = null;
+        for (RoomDtoDetailed rooms : roomList) {
+            if (roomId == rooms.getId()) {
+                comparingRoom = rooms;
+                break;
+            }
+        }
+        if (comparingRoom == null) {
+            model.addAttribute("error_message", "Rumsnumret finns inte");
+            model.addAttribute("isAvailable", false);
+            return "book-room.html";
+        } else if (!bookingService.findCrossedTime(startDate, endDate, comparingRoom)) {
+            model.addAttribute("error_message", "Bokningsperioden är redan bokad");
+            model.addAttribute("isAvailable", bookingService.findCrossedTime(startDate, endDate, comparingRoom));
+            return "book-room.html";
+        } else {
+            Room bookedRoom = roomRepo.getReferenceById(roomId);
+            Customer bookedCustomer = customerRepo.getReferenceById(customerId);
+            bookingRepo.save(new Booking(startDate, endDate, bookedRoom, bookedCustomer));
+            return "book-room.html";
+        }
+    }
+    
+
 
     @GetMapping("/allBookings")
     public String showAllBooking(Model model){

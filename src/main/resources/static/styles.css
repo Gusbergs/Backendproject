@@ -47,3 +47,11 @@
 .info_background h5 {
     font-size: 40px;
 }
+
+.warning {
+    padding: 15px;
+    background-color: darksalmon;
+    border-radius: 15px;
+    font-size: 15px;
+    color: darkred;
+}

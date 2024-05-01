@@ -55,7 +55,11 @@
       <label for="endDate">Slutdatum:</label>
       <input type="date" id="endDate" name="endDate" class="form-control" required>
     </div>
+    <div th:if = "${isAvailable} == false">
+      <p th:text = "${error_message}" class = "warning"></p>
+    </div>
     <button type="submit" class="btn btn-success">Boka rum</button>
+
   </form>
   </table>
 </div>

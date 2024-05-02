@@ -49,9 +49,18 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
     }
 
     public boolean existsById(Long roomId) {
-        return roomRepo.existsById(roomId);
+        return roomRepo.findById(roomId).isPresent();
     }
 
     //For testing only
+
+    public Room RoomDtoToRoom(RoomDtoDetailed room) {
+       return Room.builder()
+               .id(room.getId())
+               .roomNumber(room.getRoomNumber())
+               .doubleRoom(room.isDoubleRoom())
+               .extraBed(room.getExtraBed())
+               .build();
+    }
 
 }

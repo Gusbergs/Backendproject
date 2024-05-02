@@ -1,107 +1,131 @@
 package com.example.backendproject.service;
 
-import Models.Bokningar;
-import com.example.backendproject.dto.BookingDtoDetailed;
-import com.example.backendproject.dto.RoomDtoDetailed;
-import com.example.backendproject.dto.RoomDtoMini;
+import com.example.backendproject.controller.BookingController;
+import com.example.backendproject.dto.*;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class RoomServiceTest {
 
     @MockBean
     RoomRepo roomRepo;
 
-    @Mock
-    CustomerRepo customerRepo;
+    @Autowired
+    MockMvc mvc;
+
 
     @Mock
     BookingRepo bookingRepo;
 
+
+    @Autowired
     @InjectMocks
-    BookingService bookingService = new BookingService(roomRepo, customerRepo);
+    BookingService bookingService;
+
+    @Autowired
     @InjectMocks
-    RoomService roomService = new RoomService(roomRepo, bookingService);
+    RoomService roomService;
 
-    long roomId = 1L;
-    int roomNum = 4;
-    boolean isDoubleRoom = false;
-    int extrabed = 0;
-    String customerName = "Krits";
-    String eMail = "Krits@123";
+    long id1 = 1L;
+    int rn1 = 4;
+    boolean dr1 = false;
+    int eb1 = 0;
+    long id2 = 2L;
+    int rn2 = 2;
+    boolean dr2 = true;
+    int eb2 = 2;
 
-    LocalDate start = LocalDate.of(2022, 12, 3);
-    LocalDate stop = LocalDate.of(2022, 12, 24);
+    long cid1 = 1L;
+    String cName = "Krits";
+    String cMail = "Krits@123";
+
+    long bid1 = 1L;
+    LocalDate startDate = LocalDate.of(2024, 5, 1);
+    LocalDate stopDate = LocalDate.of(2024, 5, 3);
 
 
+    Room newRoom = new Room(id1, rn1, dr1, eb1);
+    Room newRoom2 = new Room(id2, rn2, dr2, eb2);
+
+    /* new Booking(bid1,startDate, stopDate, newRoom, newCustomer);
+
+    CustomerDtoMini customerDtoMini = new CustomerDtoMini(cid1, cName, cMail);
+    RoomDtoMini roomDtoMini = new RoomDtoMini(id1, rn1, dr1, eb1);
+    BookingDtoDetailed bookingDto = BookingDtoDetailed.builder()
+            .id(bid1)
+            .checkInDate(startDate)
+            .checkOutDate(stopDate)
+            .roomDtoMini(roomDtoMini)
+            .customerDtoMini(customerDtoMini)
+            .build();
+    RoomDtoDetailed roomDto = RoomDtoDetailed.builder()
+            .id(id1)
+            .roomNumber(rn1)
+            .doubleRoom(dr1)
+            .extraBed(eb1)
+            .bookingDtoDetailedList(Arrays.asList(bookingDto))
+            .build();
 
 
-
-
-    /**/
+    */
 
 
     @BeforeEach
     public void init() {
-        Room newRoom = new Room(roomNum, isDoubleRoom, extrabed);
-        Customer newCustomer = new Customer(customerName, eMail);
-        Booking newBooking = new Booking(start, stop, newRoom, newCustomer);
-        RoomDtoMini roomDto = new RoomDtoMini(roomId, roomNum, isDoubleRoom, extrabed);
-
-        RoomDtoDetailed roomDtoDetailed = RoomDtoDetailed.builder()
-                .id(roomId)
-                .roomNumber(roomNum)
-                .doubleRoom(newRoom.isDoubleRoom())
-                .extraBed(extrabed)
-                .bookingDtoDetailedList(Arrays.asList(bookingService.bookingDtoDetailed(newBooking)))
-                .build();
-
-        when(roomRepo.findById(newRoom.getId())).thenReturn(Optional.of(newRoom));
-        when(roomRepo.findAll()).thenReturn(Arrays.asList(newRoom));
+       // List<Booking> bookingsList = Arrays.asList(newBooking);
+        when(roomRepo.findById(1L)).thenReturn(Optional.of(newRoom));
+        when(roomRepo.findById(2L)).thenReturn(Optional.of(newRoom2));
+        //when(bookingService.bookingDtoDetailed(newBooking)).thenReturn(bookingDto);
     }
 
     /*@Test
-    void roomDtoDetailed() {
-        //RoomDtoDetailed actualRoomDto = roomService.roomDtoDetailed(newRoom);
+    public void roomToRoomDtoDetail() {
 
-    }
+        RoomDtoDetailed roomDtoActual = roomService.roomDtoDetailed(newRoom);
 
-    @Test
-    void roomDtoMini() {
-    }
+        assertNotNull(roomDtoActual);
 
-    @Test
-    void getAllRoomsDetailed() {
-        RoomService service2 = new RoomService(roomRepo, bookingService);
+        assertEquals(roomDtoActual.getId(), roomDto.getId());
+        assertEquals(roomDtoActual.getRoomNumber(), roomDto.getRoomNumber());
+        assertEquals(roomDtoActual.isDoubleRoom(), roomDto.isDoubleRoom());
+        assertEquals(roomDtoActual.getExtraBed(), roomDto.getExtraBed());
 
-        List<RoomDtoDetailed> roomDtoList = service2.getAllRoomsDetailed();
-        assertTrue(roomDtoList.size() == 0);
-    }
 
-    @Test
-    void getAllRoomsMini() {
-    }
+        assertEquals(roomDtoActual.getBookingDtoDetailedList().get(0).getId(), roomDto.getBookingDtoDetailedList().get(0).getId());
+        assertEquals(roomDtoActual.getBookingDtoDetailedList().get(0).getCheckInDate(), roomDto.getBookingDtoDetailedList().get(0).getCheckInDate());
+        assertEquals(roomDtoActual.getBookingDtoDetailedList().get(0).getCheckOutDate(), roomDto.getBookingDtoDetailedList().get(0).getCheckOutDate());
+    }*/
+
 
     @Test
     void existsById() {
-    }*/
+        assertThat(roomService.existsById(1L)).isTrue();
+        assertThat(roomService.existsById(3L)).isFalse();
+    }
 }

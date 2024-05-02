@@ -27,7 +27,7 @@ public class BackendprojectApplication {
 
 		return (args) -> {
 
-			LocalDate i1 = LocalDate.of(1999, 12, 11);
+		/*	LocalDate i1 = LocalDate.of(1999, 12, 11);
 			LocalDate i2 = LocalDate.of(1111, 1, 11);
 			LocalDate i3 = LocalDate.of(2021, 10, 1);
 			LocalDate o1 = LocalDate.of(2000, 4, 3);
@@ -62,10 +62,12 @@ public class BackendprojectApplication {
 			bookingRepo.save(booking2);
 			bookingRepo.save(booking3);
 
+		 */
 
 
 
 		};
+
 
 
 	}

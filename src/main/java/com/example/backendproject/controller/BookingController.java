@@ -87,8 +87,11 @@ public class BookingController {
         } else {
             Room bookedRoom = roomRepo.getReferenceById(roomId);
             Customer bookedCustomer = customerRepo.getReferenceById(customerId);
-            bookingRepo.save(new Booking(startDate, endDate, bookedRoom, bookedCustomer));
-            return "book-room.html";
+            Booking newBooking = new Booking(startDate, endDate, bookedRoom, bookedCustomer);
+            bookingRepo.save(newBooking);
+            model.addAttribute("source", "addNewBooking");
+            model.addAttribute("newBooking", bookingService.findBookingById(newBooking.getId()));
+            return "confirm-booked-room.html";
         }
     }
     
@@ -124,19 +127,27 @@ public class BookingController {
         LocalDate endDate = LocalDate.parse(end);
 
         Optional<Booking> booking = bookingService.findBookingById(id);
+        System.out.println(roomRepo.getReferenceById(roomId).getRoomNumber());
+        RoomDtoDetailed comparingRoom = roomService.roomDtoDetailed(roomRepo.getReferenceById(roomId));
         model.addAttribute("bokning", booking);
 
         if (!roomService.existsById(roomId)) {
             model.addAttribute("roomMsg", "Room ID: "+roomId +" finns inte.");
+            return "update-booking.html";
+        } else if (!bookingService.findCrossedTime(startDate, endDate, comparingRoom)) {
+            model.addAttribute("dateMsg", "Bokningsperioden är redan bokad");
+            model.addAttribute("isAvailable", bookingService.findCrossedTime(startDate, endDate, comparingRoom));
             return "update-booking.html";
         }
         // else if datumet är redan bokat då så går roomMsg bort och så får man ett dateErrorMsg istället
 
 
         bookingService.updateBookingById(id, startDate, endDate, roomId);
+        model.addAttribute("source", "updateBooking");
+        model.addAttribute("newBooking", bookingService.findBookingById(id));
 
-
-        return "redirect:/bookings/allBookings";
+        //return "redirect:/bookings/allBookings";
+        return "confirm-booked-room.html";
     }
 
     @PostMapping("/allBookings/delete/{id}")

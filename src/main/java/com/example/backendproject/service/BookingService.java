@@ -59,8 +59,8 @@ public class BookingService {
             isAvaliable = true;
         } else {
             for (BookingDtoDetailed books : room.getBookingDtoDetailedList()) {
-                System.out.println("Check in: " + books.getCheckInDate() + "\n" +
-                        "Check out: " + books.getCheckOutDate());
+                //System.out.println("Check in: " + books.getCheckInDate() + "\n" +
+                       // "Check out: " + books.getCheckOutDate());
                 if (books.getCheckInDate().isAfter(start) && books.getCheckInDate().isAfter(stop)) {
                     isAvaliable = true;
                 } else if (books.getCheckOutDate().isBefore(start) && books.getCheckOutDate().isBefore(stop)) {
@@ -74,6 +74,10 @@ public class BookingService {
 
         return isAvaliable;
     }
+
+    /*public boolean isInTheCurrentBookedTime(LocalDate oldStart, LocalDate oldStop) {
+
+    }*/
 
     public BookingDtoDetailed getBookingById2(Long id) {
         Booking booking = bookingRepo.getReferenceById(id);

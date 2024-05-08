@@ -67,6 +67,7 @@ public class BookingController {
                                     @RequestParam Long roomId,
                                     @RequestParam Long customerId,
                                     Model model) {
+
         List<RoomDtoDetailed> roomList = roomService.getAllRoomsDetailed();
         RoomDtoDetailed comparingRoom = null;
         for (RoomDtoDetailed rooms : roomList) {

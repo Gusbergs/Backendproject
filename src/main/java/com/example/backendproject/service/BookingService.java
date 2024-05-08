@@ -92,6 +92,7 @@ public class BookingService {
     public List<Booking> findAllBookings() {
         return bookingRepo.findAll();
     }
+
     @Transactional
     public void deleteBookingById(Long id) {
         try {

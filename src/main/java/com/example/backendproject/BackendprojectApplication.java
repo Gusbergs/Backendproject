@@ -8,20 +8,35 @@ import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @SpringBootApplication
 public class BackendprojectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendprojectApplication.class, args);
 
+
+		if(args.length == 0) {
+			SpringApplication.run(BackendprojectApplication.class, args);
+
+		}else if(Objects.equals(args[0], "FetchContractCustomers")){
+			SpringApplication application = new SpringApplication(FetchContractCustomers.class);
+			application.setWebApplicationType(WebApplicationType.NONE);
+			application.run(args);
+
+		}else if(Objects.equals(args[0], "FetchShippers")){
+		SpringApplication application = new SpringApplication(FetchShippers.class);
+		application.setWebApplicationType(WebApplicationType.NONE);
+		application.run(args);
 
 	}
-
+	}
+/*
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
@@ -63,4 +78,6 @@ public class BackendprojectApplication {
 
 		};
 	}
+
+ */
 }

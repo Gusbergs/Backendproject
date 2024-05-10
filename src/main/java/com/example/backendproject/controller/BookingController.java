@@ -65,8 +65,15 @@ public class BookingController {
     public String bookingSuccession(@RequestParam LocalDate startDate,
                                     @RequestParam LocalDate endDate,
                                     @RequestParam Long roomId,
-                                    @RequestParam Long customerId,
+                                    @RequestParam String email,
                                     Model model) {
+
+        if (bookingService.isBlacklisted(email)) {
+            System.out.println("Personen är blacklistad och kan inte boka hos oss.");
+            model.addAttribute("error_message", "Customer is blacklisted");
+            model.addAttribute("isAvailable", false);
+            return "book-room.html";
+        }
 
         List<RoomDtoDetailed> roomList = roomService.getAllRoomsDetailed();
         RoomDtoDetailed comparingRoom = null;
@@ -86,7 +93,7 @@ public class BookingController {
             return "book-room.html";
         } else {
             Room bookedRoom = roomRepo.getReferenceById(roomId);
-            Customer bookedCustomer = customerRepo.getReferenceById(customerId);
+            Customer bookedCustomer = customerRepo.getReferenceByEmail(email);
             Booking newBooking = new Booking(startDate, endDate, bookedRoom, bookedCustomer);
             bookingRepo.save(newBooking);
             model.addAttribute("source", "addNewBooking");

@@ -25,7 +25,7 @@ public class BackendprojectApplication {
 	private static BookingService bookingService;
 
 	public static void main(String[] args) {
-
+/*
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Ange e-postadress för bokning: ");
 		String email = scanner.nextLine();
@@ -37,6 +37,8 @@ public class BackendprojectApplication {
 			System.out.println("Bokningen är godkänd.");
 			// Fortsätt med bokningsprocessen här
 		}
+
+ */
 
 		if(args.length == 0) {
 			SpringApplication.run(BackendprojectApplication.class, args);
@@ -53,7 +55,7 @@ public class BackendprojectApplication {
 
 	}
 	}
-/*
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
@@ -96,5 +98,4 @@ public class BackendprojectApplication {
 		};
 	}
 
- */
 }

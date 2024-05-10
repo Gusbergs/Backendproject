@@ -42,7 +42,7 @@
             <th>Check-In Date</th>
             <th>Check-Out Date</th>
             <th>Room Id</th>
-            <th>Customer Id</th>
+            <th>Email</th>
         </tr>
         </thead>
         <tbody>
@@ -51,7 +51,7 @@
             <td th:text="${newBooking.get().checkInDate}"></td>
             <td th:text="${newBooking.get().checkOutDate}"></td>
             <td th:text="${newBooking.get().room.id}"></td>
-            <td th:text="${newBooking.get().customer.id}"></td>
+            <td th:text="${newBooking.get().customer.email}"></td>
         </tr>
         </tbody>
     </table>
@@ -68,7 +68,7 @@
         <th>Check-In Date</th>
         <th>Check-Out Date</th>
         <th>Room Id</th>
-        <th>Customer Id</th>
+        <th>Email</th>
     </tr>
     </thead>
     <tbody>
@@ -77,7 +77,7 @@
         <td th:text="${newBooking.get().checkInDate}"></td>
         <td th:text="${newBooking.get().checkOutDate}"></td>
         <td th:text="${newBooking.get().room.id}"></td>
-        <td th:text="${newBooking.get().customer.id}"></td>
+        <td th:text="${newBooking.get().customer.email}"></td>
     </tr>
     </tbody>
 </table>

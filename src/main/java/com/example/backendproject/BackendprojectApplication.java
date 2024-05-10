@@ -6,6 +6,8 @@ import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
+import com.example.backendproject.service.BookingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -14,12 +16,27 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Scanner;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class BackendprojectApplication {
+
+	private static BookingService bookingService;
 
 	public static void main(String[] args) {
 
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Ange e-postadress för bokning: ");
+		String email = scanner.nextLine();
+
+		if (bookingService.isBlacklisted(email)) {
+			System.out.println("Personen är blacklistad och kan inte boka hos oss.");
+			// Avbryt bokningsprocessen här
+		} else {
+			System.out.println("Bokningen är godkänd.");
+			// Fortsätt med bokningsprocessen här
+		}
 
 		if(args.length == 0) {
 			SpringApplication.run(BackendprojectApplication.class, args);

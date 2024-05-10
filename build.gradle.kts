@@ -34,8 +34,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
 	implementation("io.vertx:vertx-core:3.5.3")
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
-
-
+	implementation("com.google.code.gson:gson:2.8.8")
 }
 
 tasks.withType<Test> {

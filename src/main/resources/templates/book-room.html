@@ -23,6 +23,7 @@
               <form th:action="@{/Customers/addCustomer}" method="get"><input type="submit" value="Customers"></form>
               <form th:action="@{/bookings/allBookings}" method="get"><input type="submit" value="All bookings"></form>
               <form th:action="@{/Room/rooms}" method = "get"><input type="submit" value="All rooms"></form>
+              <form th:action="@{/ContractCustomers/getAllContractCustomers}" method = "get"><input type="submit" value="All contracted customers"></form>
           </div>
         </li>
 
@@ -40,8 +41,8 @@
   <hr>
   <form th:action="Book-A-Room" method="post">
     <div class="form-group">
-      <label for="customerId">Kund ID:</label>
-      <input type="number" id="customerId" name="customerId" class="form-control" required>
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" class="form-control" required>
     </div>
     <div class="form-group">
       <label for="roomId">Rum ID:</label>

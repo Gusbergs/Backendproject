@@ -6,40 +6,71 @@ import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
+import com.example.backendproject.service.BookingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Scanner;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class BackendprojectApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BackendprojectApplication.class, args);
+	private static BookingService bookingService;
 
+	public static void main(String[] args) {
+/*
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Ange e-postadress för bokning: ");
+		String email = scanner.nextLine();
+
+		if (bookingService.isBlacklisted(email)) {
+			System.out.println("Personen är blacklistad och kan inte boka hos oss.");
+			// Avbryt bokningsprocessen här
+		} else {
+			System.out.println("Bokningen är godkänd.");
+			// Fortsätt med bokningsprocessen här
+		}
+
+ */
+
+		if(args.length == 0) {
+			SpringApplication.run(BackendprojectApplication.class, args);
+
+		}else if(Objects.equals(args[0], "FetchContractCustomers")){
+			SpringApplication application = new SpringApplication(FetchContractCustomers.class);
+			application.setWebApplicationType(WebApplicationType.NONE);
+			application.run(args);
+
+		}else if(Objects.equals(args[0], "FetchShippers")){
+		SpringApplication application = new SpringApplication(FetchShippers.class);
+		application.setWebApplicationType(WebApplicationType.NONE);
+		application.run(args);
 
 	}
-/*
+	}
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
 		return (args) -> {
 
 			LocalDate i1 = LocalDate.of(1999, 12, 11);
-			LocalDate i2 = LocalDate.of(2012, 1, 11);
+			LocalDate i2 = LocalDate.of(1111, 1, 11);
 			LocalDate i3 = LocalDate.of(2021, 10, 1);
 			LocalDate o1 = LocalDate.of(2000, 4, 3);
-			LocalDate o2 = LocalDate.of(2013, 5, 2);
+			LocalDate o2 = LocalDate.of(1200, 5, 2);
 			LocalDate o3 = LocalDate.of(2022, 11, 1);
 
 			Room r1 = new Room(222, false, 0);
-			Room r2 = new Room(666, false, 1);
+			Room r2 = new Room(3123, false, 1);
 			Room r3 = new Room(333, true, 2);
-			Room r4 = new Room(111, true, 2);
-			Room r5 = new Room(444, false, 2);
-			Room r6 = new Room(555, false, 1);
 
 
 			Customer c1 = new Customer("kalle ", "Hej@kalle.123");
@@ -64,9 +95,7 @@ public class BackendprojectApplication {
 			bookingRepo.save(booking2);
 			bookingRepo.save(booking3);
 
-
 		};
 	}
 
- */
 }

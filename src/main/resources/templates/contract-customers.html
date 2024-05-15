@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Confirm booking</title>
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
+    <title>Room List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link th:rel="stylesheet" th:href="@{/styles.css}">
 </head>
@@ -33,57 +34,25 @@
         </div>
     </div>
 </nav>
-<div th:if = "${source} == addNewBooking">
-    <h4 class = "head">Bokningen är bekräftad</h4>
-    <table class="table table-bordered">
-
-        <thead>
-        <tr>
-            <th>Bokning ID</th>
-            <th>Check-In Date</th>
-            <th>Check-Out Date</th>
-            <th>Room Id</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:object="${newBooking.get()}">
-            <td th:text="${newBooking.get().id}"></td>
-            <td th:text="${newBooking.get().checkInDate}"></td>
-            <td th:text="${newBooking.get().checkOutDate}"></td>
-            <td th:text="${newBooking.get().room.id}"></td>
-            <td th:text="${newBooking.get().customer.email}"></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <a th:href="@{/bookings/Book-A-Room}" class="btn btn-success">Gå tillbaka</a>
-</div>
-<div th:if = "${source} == updateBooking">
-<h4 class = "head">Bokningen är uppdaterad</h4>
-<table class="table table-bordered">
-
+<div class="container">
+<h1>Contract Customers</h1>
+<table border="1">
     <thead>
     <tr>
-        <th>Bokning ID</th>
-        <th>Check-In Date</th>
-        <th>Check-Out Date</th>
-        <th>Room Id</th>
-        <th>Email</th>
+        <th>Country</th>
+        <th>Contact Name</th>
+        <th>Company Name</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:object="${newBooking.get()}">
-        <td th:text="${newBooking.get().id}"></td>
-        <td th:text="${newBooking.get().checkInDate}"></td>
-        <td th:text="${newBooking.get().checkOutDate}"></td>
-        <td th:text="${newBooking.get().room.id}"></td>
-        <td th:text="${newBooking.get().customer.email}"></td>
+
+    <tr th:each="contractCustomer : ${contractCustomer}">
+        <td th:text="${contractCustomer.country}">Country</td>
+        <td th:text="${contractCustomer.contactName}">Contact Name</td>
+        <td th:text="${contractCustomer.companyName}">Company Name</td>
     </tr>
     </tbody>
-</table>
-
-<a th:href="@{/bookings/allBookings}" class="btn btn-success">Gå tillbaka</a>
-</div>
-</body>
+    </table>
+    </div>
+    </body>
 </html>

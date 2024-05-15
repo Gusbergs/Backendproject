@@ -29,10 +29,12 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
-	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-
+	annotationProcessor("org.projectlombok:lombok")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+	implementation("io.vertx:vertx-core:3.5.3")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+	implementation("com.google.code.gson:gson:2.8.8")
 }
 
 tasks.withType<Test> {

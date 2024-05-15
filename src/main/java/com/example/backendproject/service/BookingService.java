@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +35,6 @@ public class BookingService {
     private final CustomerRepo customerRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
-
-
-
 
 
     public BookingDtoDetailed bookingDtoDetailed(Booking booking) {
@@ -130,4 +131,27 @@ public class BookingService {
             bookingRepo.save(booking);
         });
     }
+    public static boolean isBlacklisted(String email) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://javabl.systementor.se/api/stefan/blacklistcheck/" + email))
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                String responseBody = response.body();
+                System.out.println(responseBody);
+
+                return responseBody.contains("Blacklisted");
+            } else {
+                System.out.println("Fel vid förfrågan till den externa leverantören.");
+                return false; // Returnera false som standard om det uppstår fel
+            }
+        } catch (Exception e) {
+            System.out.println("Ett fel uppstod: " + e.getMessage());
+            return false; // Returnera false om det uppstår ett undantag
+        }
+    }
+
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ContractCustomersDtoMini {
-
+    public Long id;
     public String companyName;
     public String contactName;
     public String country;

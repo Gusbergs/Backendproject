@@ -1,7 +1,5 @@
 package com.example.backendproject.service;
 
-import com.example.backendproject.dto.BookingDtoMini;
-import com.example.backendproject.dto.ContractCustomersDtoDetailed;
 import com.example.backendproject.dto.ContractCustomersDtoMini;
 import com.example.backendproject.models.ContractCustomer;
 import com.example.backendproject.repo.ContractCustomerRepo;
@@ -9,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class ContractCustomerService {
 
 
     public ContractCustomersDtoMini contractCustomersDtoMini(ContractCustomer contractCustomer){
-        return ContractCustomersDtoMini.builder().companyName(contractCustomer.companyName).contactName(contractCustomer.contactName)
+        return ContractCustomersDtoMini.builder().id(contractCustomer.contractCustomerId).companyName(contractCustomer.companyName).contactName(contractCustomer.contactName)
                 .country(contractCustomer.getCountry()).build();
     }
 
@@ -31,4 +30,9 @@ public class ContractCustomerService {
         contractCustomerRepo.save(customer);
     }
 
+    public Optional<ContractCustomer> getContractCustomerById(Long id) {
+        System.out.println("ID: " + id);
+
+        return contractCustomerRepo.findById(id);
+    }
 }

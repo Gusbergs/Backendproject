@@ -42,6 +42,8 @@
         <th>Country</th>
         <th>Contact Name</th>
         <th>Company Name</th>
+        <th>View all info</th>
+
     </tr>
     </thead>
     <tbody>
@@ -50,6 +52,9 @@
         <td th:text="${contractCustomer.country}">Country</td>
         <td th:text="${contractCustomer.contactName}">Contact Name</td>
         <td th:text="${contractCustomer.companyName}">Company Name</td>
+        <td>
+            <a th:href="@{'/ContractCustomers/getAllContractCustomersInDetail/' + ${contractCustomer.id}}">View</a>
+        </td>
     </tr>
     </tbody>
     </table>

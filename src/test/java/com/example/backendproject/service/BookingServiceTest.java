@@ -8,6 +8,7 @@ import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
+import com.example.backendproject.repo.QueueRepository;
 import com.example.backendproject.repo.RoomRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,8 @@ class BookingServiceTest {
     @MockBean
     RoomRepo roomRepo;
 
+    private QueueRepository queueRepository;
+
     private Booking createMockBooking(Long id) {
         Customer customer = new Customer("Customer" + id, "customer" + id + "@example.com");
         Room room = new Room(100 + id.intValue(), id % 2 == 0, 1);
@@ -50,8 +53,10 @@ class BookingServiceTest {
     @InjectMocks
     @Autowired
     BookingService bookingService = new BookingService(roomRepo, customerRepo);
+
+
     @InjectMocks
-    RoomService roomService = new RoomService(roomRepo, bookingService);
+    RoomService roomService = new RoomService(roomRepo, bookingService, queueRepository );
 
         Customer customer = new Customer("John Doe", "john.doe@example.com");
         Room room = new Room(101, true, 1);

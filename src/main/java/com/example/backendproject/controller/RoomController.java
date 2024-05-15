@@ -27,6 +27,8 @@ public class RoomController {
 
 
 
+
+
     @GetMapping("/rooms")
     public String getAllRooms(Model model) {
         List<RoomDtoMini> rooms = roomService.getAllRoomsMini();

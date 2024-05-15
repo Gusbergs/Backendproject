@@ -35,24 +35,25 @@
     </div>
 </nav>
 <div class="container">
-    <h1>Event List</h1>
+    <h1>Queue Events</h1>
+
     <table border="1">
         <thead>
         <tr>
-            <th>Queue ID</th>
-            <th>Room ID</th>
+            <th>ID</th>
+            <th>Type</th>
             <th>Room Number</th>
-            <th>Description</th>
-            <th>Event Time</th>
+            <th>Timestamp</th>
+            <th>Cleaning By User</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="queue : ${queue}">
-            <td th:text="${queue.id}"></td>
-            <td th:text="${queue.room.id}"></td>
-            <td th:text="${queue.room.roomNumber}"></td>
-            <td th:text="${queue.description}"></td>
-            <td th:text="${queue.eventTime}"></td>
+        <tr th:each="event : ${queue}">
+            <td th:text="${event.id}">ID</td>
+            <td th:text="${event.type}">Type</td>
+            <td th:text="${event.roomNo}">Room Number</td>
+            <td th:text="${event.timeStamp}">Timestamp</td>
+            <td th:text="${event.cleaningByUser}">Cleaning By User</td>
         </tr>
         </tbody>
     </table>

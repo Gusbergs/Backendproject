@@ -1,5 +1,6 @@
 package com.example.backendproject.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Entity;
@@ -29,8 +30,16 @@ public abstract class QueueModel {
     @GeneratedValue
     private Long id;
     private String type;
-    private LocalDateTime TimeStamp;
+
+    @JsonProperty("RoomNo")
     private String RoomNo;
+
+    @JsonProperty("TimeStamp")
+    private LocalDateTime TimeStamp;
+
+    @JsonProperty("CleaningByUser")
+    private String CleaningByUser;
+
 }
 
 @Data

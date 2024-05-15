@@ -55,22 +55,25 @@ public class BackendprojectApplication {
 
 	}
 	}
-
+/*
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
 		return (args) -> {
 
 			LocalDate i1 = LocalDate.of(1999, 12, 11);
-			LocalDate i2 = LocalDate.of(1111, 1, 11);
+			LocalDate i2 = LocalDate.of(2021, 1, 11);
 			LocalDate i3 = LocalDate.of(2021, 10, 1);
 			LocalDate o1 = LocalDate.of(2000, 4, 3);
-			LocalDate o2 = LocalDate.of(1200, 5, 2);
+			LocalDate o2 = LocalDate.of(2021, 5, 2);
 			LocalDate o3 = LocalDate.of(2022, 11, 1);
 
 			Room r1 = new Room(222, false, 0);
-			Room r2 = new Room(3123, false, 1);
+			Room r2 = new Room(111, false, 1);
 			Room r3 = new Room(333, true, 2);
+			Room r4 = new Room(444, true, 2);
+			Room r5 = new Room(555, true, 0);
+			Room r6 = new Room(666, false, 1);
 
 
 			Customer c1 = new Customer("kalle ", "Hej@kalle.123");
@@ -85,6 +88,10 @@ public class BackendprojectApplication {
 			roomRepo.save(r1);
 			roomRepo.save(r2);
 			roomRepo.save(r3);
+			roomRepo.save(r4);
+			roomRepo.save(r5);
+			roomRepo.save(r6);
+
 
 			customerRepo.save(c1);
 			customerRepo.save(c2);
@@ -97,5 +104,7 @@ public class BackendprojectApplication {
 
 		};
 	}
+
+ */
 
 }

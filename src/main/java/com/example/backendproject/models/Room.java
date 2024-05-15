@@ -26,6 +26,8 @@ public class Room {
 
     int extraBed;
 
+    double price = 100;
+
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 

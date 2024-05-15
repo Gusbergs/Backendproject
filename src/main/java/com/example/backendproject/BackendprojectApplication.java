@@ -24,6 +24,7 @@ public class BackendprojectApplication {
 
 	private static BookingService bookingService;
 
+
 	public static void main(String[] args) {
 /*
 		Scanner scanner = new Scanner(System.in);
@@ -48,14 +49,21 @@ public class BackendprojectApplication {
 			application.setWebApplicationType(WebApplicationType.NONE);
 			application.run(args);
 
-		}else if(Objects.equals(args[0], "FetchShippers")){
-		SpringApplication application = new SpringApplication(FetchShippers.class);
-		application.setWebApplicationType(WebApplicationType.NONE);
-		application.run(args);
+		}else if(Objects.equals(args[0], "FetchShippers")) {
+			SpringApplication application = new SpringApplication(FetchShippers.class);
+			application.setWebApplicationType(WebApplicationType.NONE);
+			application.run(args);
+		}
+		else if(Objects.equals(args[0], "ReadQueueApp")){
+				SpringApplication application = new SpringApplication(ReadQueueApp.class);
+				application.setWebApplicationType(WebApplicationType.NONE);
+				application.run(args);
+
+			}
+
 
 	}
-	}
-/*
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
@@ -105,6 +113,6 @@ public class BackendprojectApplication {
 		};
 	}
 
- */
+
 
 }

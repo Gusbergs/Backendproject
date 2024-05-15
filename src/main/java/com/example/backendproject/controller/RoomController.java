@@ -1,6 +1,8 @@
 package com.example.backendproject.controller;
 
 import com.example.backendproject.dto.RoomDtoMini;
+import com.example.backendproject.models.QueueModel;
+import com.example.backendproject.repo.QueueRepository;
 import com.example.backendproject.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,12 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService roomService;
+    private final QueueRepository queueRepository;
 
     @Autowired
-    public RoomController(RoomService roomService) {
+    public RoomController(RoomService roomService, QueueRepository queueRepository) {
         this.roomService = roomService;
+        this.queueRepository = queueRepository;
     }
 
 
@@ -28,5 +32,12 @@ public class RoomController {
         List<RoomDtoMini> rooms = roomService.getAllRoomsMini();
         model.addAttribute("rooms", rooms);
         return "rooms.html";
+    }
+
+    @GetMapping("/queue")
+    public String getEvents(Model model) {
+        List<QueueModel> queue = queueRepository.findAll();
+        model.addAttribute("queue", queue);
+        return "queue.html";
     }
 }

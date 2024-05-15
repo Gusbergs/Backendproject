@@ -3,6 +3,7 @@ package com.example.backendproject.controller;
 
 import com.example.backendproject.dto.BookingDtoDetailed;
 import com.example.backendproject.dto.BookingDtoMini;
+import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
@@ -76,6 +77,7 @@ public class BookingController {
         }
 
         List<RoomDtoDetailed> roomList = roomService.getAllRoomsDetailed();
+        List<CustomerDtoMini> customerList = customerService.getAllCustomersMini();
         RoomDtoDetailed comparingRoom = null;
         for (RoomDtoDetailed rooms : roomList) {
             if (roomId == rooms.getId()) {
@@ -83,8 +85,15 @@ public class BookingController {
                 break;
             }
         }
+
+        CustomerDtoMini comparedCustomer = bookingService.ComparingCustomer(email, customerList);
+
         if (comparingRoom == null) {
             model.addAttribute("error_message", "Rumsnumret finns inte");
+            model.addAttribute("isAvailable", false);
+            return "book-room.html";
+        } else if (comparedCustomer == null) {
+            model.addAttribute("error_message", "Kunden finns inte i systemet");
             model.addAttribute("isAvailable", false);
             return "book-room.html";
         } else if (!bookingService.findCrossedTime(startDate, endDate, comparingRoom)) {

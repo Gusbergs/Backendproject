@@ -20,6 +20,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -83,6 +84,15 @@ public class BookingService {
     public BookingDtoDetailed getBookingById2(Long id) {
         Booking booking = bookingRepo.getReferenceById(id);
         return bookingDtoDetailed(booking);
+    }
+
+    public CustomerDtoMini ComparingCustomer(String email, List<CustomerDtoMini> customerList) {
+       for (CustomerDtoMini customer : customerList) {
+           if (Objects.equals(email, customer.getEmail())) {
+               return customer;
+           }
+       }
+       return null;
     }
 
 

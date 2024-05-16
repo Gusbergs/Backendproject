@@ -76,6 +76,12 @@ public class BookingController {
             return "book-room.html";
         }
 
+        if (!customerService.checkIfCustomerExist(email)){
+            model.addAttribute("error_message", "Customer dose not exist");
+            model.addAttribute("isAvailable", false);
+            return "book-room.html";
+        }
+
         List<RoomDtoDetailed> roomList = roomService.getAllRoomsDetailed();
         List<CustomerDtoMini> customerList = customerService.getAllCustomersMini();
         RoomDtoDetailed comparingRoom = null;

@@ -4,8 +4,6 @@ import com.example.backendproject.models.Queue;
 import com.example.backendproject.repo.QueueRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -16,7 +14,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @Component
@@ -47,7 +44,7 @@ public class ReadQueueApp implements CommandLineRunner {
             System.out.println(" [x] Received '" + message + "'");
 
             try {
-                Queue newQueue = mapper.convertValue(message, Queue.class);
+                Queue newQueue = mapper.readValue(message, Queue.class);
                 queueRepo.save(newQueue);
                 System.out.println("Queue: " + newQueue.id + " is saved");
             } catch (Exception e) {

@@ -48,8 +48,8 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/queue/{roomId}")
-    public String getRoomQueue(@PathVariable Long id, Model model) {
-        Optional<QueueModel> queue = roomService.getQueueModelById(id);
+    public String getRoomQueue(@PathVariable Long roomId, Model model) {
+        Optional<QueueModel> queue = roomService.getQueueModelById(roomId);
         model.addAttribute("queue", queue);
         return "queue.html";
     }

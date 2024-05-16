@@ -9,11 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DeliverCallback;
 
 import java.nio.channels.Channel;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.Objects;
+
 
 @Component
 @ComponentScan
@@ -26,6 +31,7 @@ public class ReadQueueApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
         if (args.length > 0 && Objects.equals(args[0], "ReadQueueApp")) {
             System.out.println("Kör ReadQueueApp");
             ConnectionFactory factory = new ConnectionFactory();
@@ -53,5 +59,8 @@ public class ReadQueueApp implements CommandLineRunner {
             };
             channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
         }
+
     }
+
+
 }

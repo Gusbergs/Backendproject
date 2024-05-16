@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -135,8 +136,22 @@ class BookingServiceTest {
     }
 
    */
+    @Test
+    void findSandMBookedTest() {
+        LocalDate start = LocalDate.of(2024, 9, 8);
+        LocalDate stop = LocalDate.of(2024, 9, 16);
+        LocalDate start1_1 = LocalDate.of(2024, 9, 16);
+        LocalDate stop1_1 = LocalDate.of(2024, 9, 16);
 
+        boolean find1 = bookingService.findSundayAndMondayBooked(start, stop);
+        boolean find2 = bookingService.findSundayAndMondayBooked(start1_1, stop1_1);
 
+        System.out.println(find1);
+        System.out.println(find2);
+
+        assertThat(find1).isTrue();
+        assertThat(find2).isFalse();
+    }
 
     @Test
     void getBookingById2() {

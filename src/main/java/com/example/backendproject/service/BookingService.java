@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -164,4 +165,52 @@ public class BookingService {
         }
     }
 
+    public int getHowManyDays(LocalDate start, LocalDate stop) {
+        return LocalDate.from(start).until(stop).getDays();
+    }
+
+    public boolean findSundayAndMondayBooked(LocalDate start, LocalDate stop) {
+        boolean isBetweenSundayAndMonday = false;
+        if (start.getDayOfWeek() == DayOfWeek.SUNDAY && !start.plusDays(1).isAfter(stop)) {
+            isBetweenSundayAndMonday = true;
+        }
+
+        return isBetweenSundayAndMonday;
+    }
+
+    public double getCalculatedPrice(double price, LocalDate start, LocalDate stop, boolean isMOreThan2Days) {
+        if (isMOreThan2Days) {
+            if (!findSundayAndMondayBooked(start, stop)) {
+                return price * 0.995;
+            } else {
+                return price * 0.98;
+            }
+        } else {
+            if(findSundayAndMondayBooked(start, stop)) {
+                return price * 0.98;
+            } else {
+                return price;
+            }
+        }
+    }
+
+    public double totalPrice(LocalDate start, LocalDate stop, boolean isMoreThan2Days, double price) {
+        double totalPrice = 0;
+        LocalDate startDate = start;
+        while (!startDate.isAfter(stop)) {
+            totalPrice = getCalculatedPrice(price, start, stop, isMoreThan2Days);
+            startDate.plusDays(1);
+        }
+        return totalPrice;
+    }
+
+    public double returnPriceWithFindingDays(double price, LocalDate start, LocalDate stop) {
+        double totalPrice;
+        if (getHowManyDays(start, stop) > 2) {
+            totalPrice = totalPrice(start, stop, true, price);
+        } else {
+            totalPrice = totalPrice(start, stop, false, price);
+        }
+        return totalPrice;
+    }
 }

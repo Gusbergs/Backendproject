@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -47,8 +48,8 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/queue/{roomId}")
-    public String getRoomQueue(@PathVariable Long roomId, Model model) {
-        List<QueueModel> queue = queueRepository.(roomId);
+    public String getRoomQueue(@PathVariable Long id, Model model) {
+        Optional<QueueModel> queue = roomService.getRoomById(id);
         model.addAttribute("queue", queue);
         return "queue.html";
     }

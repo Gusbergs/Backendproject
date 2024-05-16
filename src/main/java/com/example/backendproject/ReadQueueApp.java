@@ -5,13 +5,14 @@ import com.example.backendproject.repo.QueueRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.rabbitmq.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import java.nio.channels.Channel;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.util.Objects;
 
 @Component

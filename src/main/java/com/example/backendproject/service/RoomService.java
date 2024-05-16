@@ -75,7 +75,11 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
     }
 
 
+    public Optional<QueueModel> getQueueModelById(Long id) {
+        System.out.println("ID: " + id);
 
+        return queueRepository.findById(id);
+    }
 
 
 

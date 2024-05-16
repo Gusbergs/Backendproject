@@ -1,6 +1,5 @@
 package com.example.backendproject;
 
-
 import com.example.backendproject.models.QueueModel;
 import com.example.backendproject.repo.QueueRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.Objects;
 
 @Component
 @ComponentScan
@@ -26,30 +25,32 @@ public class ReadQueueApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("TEst");
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("128.140.81.47");
-        factory.setUsername("djk47589hjkew789489hjf894");
-        factory.setPassword("sfdjkl54278frhj7");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+        if (args.length > 0 && Objects.equals(args[0], "ReadQueueApp")) {
+            System.out.println("Kör ReadQueueApp");
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost("128.140.81.47");
+            factory.setUsername("djk47589hjkew789489hjf894");
+            factory.setPassword("sfdjkl54278frhj7");
+            Connection connection = factory.newConnection();
+            Channel channel = connection.createChannel();
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "'");
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+                String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
+                System.out.println(" [x] Received '" + message + "'");
 
-            try {
-                QueueModel event = mapper.readValue(message, QueueModel.class);
-                queueRepository.save(event);
-                System.out.println("Event saved: " + event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
+                try {
+                    QueueModel event = mapper.readValue(message, QueueModel.class);
+                    queueRepository.save(event);
+                    System.out.println("Event saved: " + event);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+            channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
+        }
     }
 }

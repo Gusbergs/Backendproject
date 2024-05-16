@@ -65,9 +65,7 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
                .build();
     }
 
-    public List<QueueModel> getAllQueue(){
-        return queueRepository.findAll();
-    }
+
 
 
 

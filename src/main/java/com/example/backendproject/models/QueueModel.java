@@ -7,13 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Data
-@NoArgsConstructor
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
@@ -29,39 +26,34 @@ public abstract class QueueModel {
     @Id
     @GeneratedValue
     private Long id;
-    private String type;
 
     @JsonProperty("RoomNo")
-    private String RoomNo;
+    private String roomNo;
 
     @JsonProperty("TimeStamp")
-    private LocalDateTime TimeStamp;
+    private LocalDateTime timeStamp;
 
-    @JsonProperty("CleaningByUser")
-    private String CleaningByUser;
 
 }
 
-@Data
-@NoArgsConstructor
 @Entity
+@Data
 class RoomCleaningFinished extends QueueModel {
-    private String CleaningByUser;
+    @JsonProperty("CleaningByUser")
+    private String cleaningByUser;
 }
 
-@Data
-@NoArgsConstructor
 @Entity
+@Data
 class RoomClosed extends QueueModel {}
 
-@Data
-@NoArgsConstructor
 @Entity
+@Data
 class RoomOpened extends QueueModel {}
 
-@Data
-@NoArgsConstructor
 @Entity
+@Data
 class RoomCleaningStarted extends QueueModel {
-    private String CleaningByUser;
+    @JsonProperty("CleaningByUser")
+    private String cleaningByUser;
 }

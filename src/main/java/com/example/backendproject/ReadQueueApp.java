@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 
-@Component
-@ComponentScan
-public class ReadQueueApp implements CommandLineRunner {
+//@Component
+//@ComponentScan
+//public class ReadQueueApp implements CommandLineRunner {
 
-    @Autowired
+   /* @Autowired
     QueueRepo queueRepo;
     String queueName = "8ed3f77d-5fd0-498a-bb4f-d788a779bb2a";
     @Override
@@ -54,5 +54,5 @@ public class ReadQueueApp implements CommandLineRunner {
         };
 
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
-    }
-}
+    }*/
+//}

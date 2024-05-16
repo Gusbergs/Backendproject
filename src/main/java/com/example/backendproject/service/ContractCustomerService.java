@@ -16,6 +16,8 @@ public class ContractCustomerService {
     final ContractCustomerRepo contractCustomerRepo;
 
 
+
+
     public ContractCustomersDtoMini contractCustomersDtoMini(ContractCustomer contractCustomer){
         return ContractCustomersDtoMini.builder().id(contractCustomer.contractCustomerId).companyName(contractCustomer.companyName).contactName(contractCustomer.contactName)
                 .country(contractCustomer.getCountry()).build();

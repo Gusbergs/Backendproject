@@ -42,7 +42,7 @@ public class RoomController {
         return "rooms.html";
     }
 
-    @GetMapping("/rooms/queue/{id}")
+    @GetMapping("/queue/{id}")
     public String getRoomQueue(@PathVariable Long id, Model model) {
         Optional<Room> room = roomService.getRoomById(id);
 
@@ -50,9 +50,6 @@ public class RoomController {
             String roomNo = String.valueOf(room.get().getId());
             List<QueueModel> queue = roomService.getEventsByRoomNo(roomNo);
             model.addAttribute("queue", queue);
-        } else {
-
-            return "error.html";
         }
 
         System.out.println("Room Id " + id);

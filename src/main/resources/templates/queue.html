@@ -13,17 +13,17 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!--aria-current="page"-->
                 <li class="nav-item">
                     <a class="nav-link active" href="" style="color: white">Home</a>
                 </li>
-                <li class="nav-item service-dropdown">
-                    <a class="nav-link active service-btn" style="color: white">Service</a>
-                    <div class="service-content">
+                <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
+                    <div class = "service-content">
                         <form th:action="@{/bookings/Book-A-Room}" method="get"><input type="submit" value="Book a room"></form>
                         <form th:action="@{/Customers/addCustomer}" method="get"><input type="submit" value="Customers"></form>
                         <form th:action="@{/bookings/allBookings}" method="get"><input type="submit" value="All bookings"></form>
-                        <form th:action="@{/Room/rooms}" method="get"><input type="submit" value="All rooms"></form>
-                        <form th:action="@{/ContractCustomers/getAllContractCustomers}" method="get"><input type="submit" value="All contracted customers"></form>
+                        <form th:action="@{/Room/rooms}" method = "get"><input type="submit" value="All rooms"></form>
+                        <form th:action="@{/ContractCustomers/getAllContractCustomers}" method = "get"><input type="submit" value="All contracted customers"></form>
                     </div>
                 </li>
             </ul>
@@ -31,25 +31,27 @@
     </div>
 </nav>
 <div class="container">
-    <h1>Room List</h1>
+    <h1>Room Events</h1>
     <table border="1">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Room Number</th>
-            <th>Double Room</th>
-            <th>Extra Bed</th>
-            <th>Action</th>
+            <th>Room No</th>
+            <th>Time Stamp</th>
+            <th>Type</th>
+            <th>Cleaning By User</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="room : ${rooms}">
-            <td th:text="${room.id}">Room ID</td>
-            <td th:text="${room.roomNumber}">Room Number</td>
-            <td th:text="${room.doubleRoom ? 'Yes' : 'No'}">Double Room</td>
-            <td th:text="${room.extraBed}">Extra Bed</td>
-            <td>
-                <a th:href="@{/rooms/queue/{id}(id=${room.id})}">View Queue</a>
+        <tr th:each="event : ${queue}">
+            <td th:text="${event.id}"></td>
+            <td th:text="${event.roomNo}"></td>
+            <td th:text="${event.timeStamp}"></td>
+            <td th:text="${event.getClass().getSimpleName()}"></td>
+            <td th:switch="${event.getClass().getSimpleName()}">
+                <span th:case="'RoomCleaningFinished'" th:text="${event.cleaningByUser}"></span>
+                <span th:case="'RoomCleaningStarted'" th:text="${event.cleaningByUser}"></span>
+
             </td>
         </tr>
         </tbody>

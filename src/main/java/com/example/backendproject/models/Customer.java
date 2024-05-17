@@ -25,6 +25,8 @@ public class Customer {
     String name;
 
     String email;
+
+
     @OneToMany(mappedBy = "customer",  fetch = FetchType.EAGER)
     private List<Booking> bookings;
 

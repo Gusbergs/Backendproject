@@ -35,8 +35,16 @@ dependencies {
 	implementation("io.vertx:vertx-core:3.5.3")
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 	implementation("com.google.code.gson:gson:2.8.8")
+	testImplementation("com.h2database:h2:2.2.224")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.test{
+	filter{
+		includeTestsMatching("*Test")
+
+	}
 }

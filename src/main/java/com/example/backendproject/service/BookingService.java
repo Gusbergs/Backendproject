@@ -2,27 +2,47 @@ package com.example.backendproject.service;
 
 
 import com.example.backendproject.dto.*;
+import com.example.backendproject.models.Blacklist;
 import com.example.backendproject.models.Booking;
+import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.type.format.jackson.JacksonJsonFormatMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.Authenticator;
+import java.net.CookieHandler;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
+import static java.lang.Character.getType;
+import static java.lang.String.valueOf;
 
 
 @Service
@@ -37,6 +57,8 @@ public class BookingService {
     private final CustomerRepo customerRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
+    @Autowired
+    private Gson gson;
 
 
     public BookingDtoDetailed bookingDtoDetailed(Booking booking) {
@@ -77,10 +99,6 @@ public class BookingService {
 
         return isAvaliable;
     }
-
-    /*public boolean isInTheCurrentBookedTime(LocalDate oldStart, LocalDate oldStop) {
-
-    }*/
 
     public BookingDtoDetailed getBookingById2(Long id) {
         Booking booking = bookingRepo.getReferenceById(id);
@@ -146,6 +164,7 @@ public class BookingService {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://javabl.systementor.se/api/stefan/blacklistcheck/" + email))
+                .GET()
                 .build();
 
         try {
@@ -165,52 +184,56 @@ public class BookingService {
         }
     }
 
-    public int getHowManyDays(LocalDate start, LocalDate stop) {
-        return LocalDate.from(start).until(stop).getDays();
-    }
 
-    public boolean findSundayAndMondayBooked(LocalDate start, LocalDate stop) {
-        boolean isBetweenSundayAndMonday = false;
-        if (start.getDayOfWeek() == DayOfWeek.SUNDAY && !start.plusDays(1).isAfter(stop)) {
-            isBetweenSundayAndMonday = true;
-        }
+    public List<Blacklist> getAllBlacklists() throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://javabl.systementor.se/api/grupp5/blacklist"))
+                .GET()
+                .build();
 
-        return isBetweenSundayAndMonday;
-    }
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-    public double getCalculatedPrice(double price, LocalDate start, LocalDate stop, boolean isMOreThan2Days) {
-        if (isMOreThan2Days) {
-            if (!findSundayAndMondayBooked(start, stop)) {
-                return price * 0.995;
-            } else {
-                return price * 0.98;
-            }
+        if (response.statusCode() == 200) {
+            gson = new Gson();
+            Type listType = new TypeToken<List<Blacklist>>(){}.getType();
+            String responseBody = response.body();
+            return gson.fromJson(responseBody, listType);
         } else {
-            if(findSundayAndMondayBooked(start, stop)) {
-                return price * 0.98;
-            } else {
-                return price;
-            }
+            return new ArrayList<>();
         }
     }
 
-    public double totalPrice(LocalDate start, LocalDate stop, boolean isMoreThan2Days, double price) {
-        double totalPrice = 0;
-        LocalDate startDate = start;
-        while (!startDate.isAfter(stop)) {
-            totalPrice = getCalculatedPrice(price, start, stop, isMoreThan2Days);
-            startDate.plusDays(1);
-        }
-        return totalPrice;
+    public boolean addBlacklisted(String email, boolean isOk) throws IOException, InterruptedException {
+        LocalDateTime nowDate = LocalDateTime.now();
+        HttpClient client = HttpClient.newHttpClient();
+        Customer getCustomer = customerRepo.findByEmail(email).stream().filter(customer -> email.equals(customer.getEmail())).findFirst().orElse(null);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://javabl.systementor.se/api/grupp5/blacklist"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString("{\"email\":\"" + email + "\", \"name\":\""+getCustomer.getName()+"\", \"group\":\"grupp5\", \"created\":\"" +nowDate + "\", \"isOk\":\""+isOk+ "\"}"))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.statusCode() < 300;
     }
 
-    public double returnPriceWithFindingDays(double price, LocalDate start, LocalDate stop) {
-        double totalPrice;
-        if (getHowManyDays(start, stop) > 2) {
-            totalPrice = totalPrice(start, stop, true, price);
-        } else {
-            totalPrice = totalPrice(start, stop, false, price);
-        }
-        return totalPrice;
+    public void BlacklistHandler(String email, boolean isNotBlacklisted) throws IOException, InterruptedException {
+        if (updateBlacklistedByEmail(email, isNotBlacklisted)) return;
+        addBlacklisted(email,  isNotBlacklisted);
     }
+
+    public boolean updateBlacklistedByEmail(String email, boolean ok) throws IOException, InterruptedException{
+        Customer getCustomer = customerRepo.findByEmail(email).stream().filter(customer -> email.equals(customer.getEmail())).findFirst().orElse(null);
+        System.out.println("To update blacklist");
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://javabl.systementor.se/api/grupp5/blacklist/" + email))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString("{\"name\":\""+getCustomer.getName()+"\",\"isOk\":\""+ ok + "\"}"))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("Update successful");
+        return response.statusCode() < 300;
+    }
+
 }

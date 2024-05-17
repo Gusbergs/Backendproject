@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
+    <title>Pensionatets bokningssystem</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-black bg-color">
+    <div class="bar px-4 px-lg-5 d-flex justify-content-between align-items-center">
+        <h2 class="navbar-brand" href="#!">Hotel</h2>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!--aria-current="page"-->
+                <li class="nav-item">
+                    <a class="nav-link active" href="" style="color: white">Home</a>
+                </li>
+                <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
+                    <div class = "service-content">
+                        <form th:action="@{/bookings/Book-A-Room}" method="get"><input type="submit" value="Book a room"></form>
+                        <form th:action="@{/Customers/addCustomer}" method="get"><input type="submit" value="Customers"></form>
+                        <form th:action="@{/bookings/allBookings}" method="get"><input type="submit" value="All bookings"></form>
+                        <form th:action="@{/Room/rooms}" method = "get"><input type="submit" value="All rooms"></form>
+                        <form th:action="@{/ContractCustomers/getAllContractCustomers}" method = "get"><input type="submit" value="All contracted customers"></form>
+                        <form th:action="@{/blacklists}" method="get"><input type="submit" value="Blacklists"></form>
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h2>Blacklists</h2>
+    <hr>
+    <div th:if="${command} == blacklistAlt">
+        <h4>Välj alternativ</h4>
+        <form th:action="@{/blacklists/addNewBlacklists}" method="post">
+            <label for="addBlacklist">Add/update to blacklist:</label><br>
+            <button th:type="submit" id = addBlacklist>Manage blacklist</button>
+        </form>
+            <br>
+        <form th:action="@{/blacklists/getBlacklists}" method="get">
+            <label for = "showBlacklist">Show all blacklists:</label><br>
+            <button th:type="submit" id = showBlacklist th:class="service-btn">Show blacklist</button>
+        </form>
+    </div>
+    <div th:if ="${command} == getAllblacklists">
+        <h4>Alla blacklist</h4>
+        <br>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>email</th>
+                <th>name</th>
+                <th>group</th>
+                <th>created</th>
+                <th>is not in blacklist</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="blacklist : ${blacklists}">
+                    <td th:text="${blacklist.id}">Id</td>
+                    <td th:text="${blacklist.email}">email</td>
+                    <td th:text="${blacklist.name}">name</td>
+                    <td th:text="${blacklist.group}">group</td>
+                    <td th:text="${blacklist.created}">created</td>
+                    <td th:text="${blacklist.ok}">is not in blacklist</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${command} == addNewBlacklist">
+        <h4>Addera en ny blacklist</h4><br>
+        <form th:action="@{/blacklists/addNewBlacklists/success}" method="post">
+            <label for = "email">Email:</label><br>
+            <input type = "text" id = "email" name= "email" placeholder="t.ex.123@mai.com">
+            <label for="isOk"></label>
+            <select id = "isOk" name="isOk">
+                <option>Choose</option>
+                <option value="true">not in blacklist</option>
+                <option value="false">in blacklist</option>
+            </select>
+            <button th:type="submit" class="btn btn-danger">Addera</button>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

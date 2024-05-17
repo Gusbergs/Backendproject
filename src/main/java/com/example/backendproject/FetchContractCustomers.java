@@ -27,7 +27,14 @@ public class FetchContractCustomers implements CommandLineRunner {
 
         module.setDefaultUseWrapper(false);
         XmlMapper xmlMapper = new XmlMapper(module);
-        InputStream getContractCustomer = ccXmlProvider.getContractCustomerDataStream();
+        //InputStream getContractCustomer = ccXmlProvider.getContractCustomerDataStream();
+        /*AllContractCustomers allContractCustomers = xmlMapper.readValue(getContractCustomer,
+                AllContractCustomers.class
+        );
+        System.out.println(allContractCustomers);
+        */
+
+
         AllContractCustomers allContractCustomers = xmlMapper.readValue(new URL("https://javaintegration.systementor.se/customers"),
                 AllContractCustomers.class
         );

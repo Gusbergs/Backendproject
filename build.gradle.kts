@@ -35,7 +35,7 @@ dependencies {
 	implementation("io.vertx:vertx-core:3.5.3")
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 	implementation("com.rabbitmq:amqp-client:5.21.0")
-
+	implementation("com.google.code.gson:gson:2.8.8")
 }
 
 tasks.withType<Test> {

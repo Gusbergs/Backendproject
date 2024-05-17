@@ -13,4 +13,5 @@ public class XmlStreamProvider {
         URL ccUrl = new URL("https://javaintegration.systementor.se/customers");
         return ccUrl.openStream();
     }
+
 }

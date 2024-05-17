@@ -81,6 +81,10 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
         return queueRepository.findById(id);
     }
 
+    public List<QueueModel> getEventsByRoomNo(String roomNumber) {
+        return queueRepository.findByRoomNo(roomNumber);
+    }
+
 
 
 

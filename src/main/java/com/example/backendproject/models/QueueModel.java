@@ -25,13 +25,14 @@ import java.time.LocalDateTime;
 public abstract class QueueModel {
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
 
     @JsonProperty("RoomNo")
     private String roomNo;
 
     @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
+
 
 
 }

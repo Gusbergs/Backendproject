@@ -5,8 +5,7 @@ import com.example.backendproject.models.EventViewModel;
 import com.example.backendproject.models.QueueModel;
 
 
-
-
+import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.QueueRepository;
 import com.example.backendproject.service.RoomService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/Room")
+@RequestMapping("/rooms")
 public class RoomController {
 
     private final RoomService roomService;
@@ -36,11 +35,7 @@ public class RoomController {
         this.queueRepository = queueRepository;
     }
 
-
-
-
-
-    @GetMapping("/rooms")
+    @GetMapping
     public String getAllRooms(Model model) {
         List<RoomDtoMini> rooms = roomService.getAllRoomsMini();
         model.addAttribute("rooms", rooms);
@@ -49,17 +44,27 @@ public class RoomController {
 
     @GetMapping("/rooms/queue/{id}")
     public String getRoomQueue(@PathVariable Long id, Model model) {
-        Optional<QueueModel> queue = roomService.getQueueModelById(id);
-        model.addAttribute("queue", queue);
+        Optional<Room> room = roomService.getRoomById(id);
+
+        if (room.isPresent()) {
+            String roomNo = String.valueOf(room.get().getId());
+            List<QueueModel> queue = roomService.getEventsByRoomNo(roomNo);
+            model.addAttribute("queue", queue);
+        } else {
+
+            return "error.html";
+        }
+
+        System.out.println("Room Id " + id);
         return "queue.html";
     }
 
 
-
-
-
-
-
-
-
+    @GetMapping("/test")
+    public String getQueueTestRooms(Model model) {
+        List<QueueModel> queue = queueRepository.findAll();
+        model.addAttribute("queue", queue);
+        return "queue.html";
+    }
 }
+

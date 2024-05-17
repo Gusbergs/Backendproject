@@ -12,6 +12,7 @@ import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
+import com.example.backendproject.service.DiscountService;
 import com.example.backendproject.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class BookingController {
 
     private final BookingRepo bookingRepo;
     private final CustomerService customerService;
+
+    private final DiscountService discountService;
 
     /*@Autowired
     public BookingController(BookingService bookingService, RoomService roomService) {

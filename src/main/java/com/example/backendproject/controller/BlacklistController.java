@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,18 +38,26 @@ public class BlacklistController {
 
     @PostMapping("/addNewBlacklists/success")
     public String addNewBlacklistSuccess(@RequestParam String email
-            , @RequestParam boolean isOk
+            , @RequestParam String isOk
             , Model model)
             throws IOException, InterruptedException {
         System.out.println("adding");
+        System.out.println("isOk: " + isOk);
         //model.addAttribute("command", "addNewBlacklistSuccession");
-        if (customerService.checkIfCustomerExist(email)) {
-            bookingService.BlacklistHandler(email, isOk);
+        if (email.isEmpty() || Objects.equals(isOk, "Choose")){
+            model.addAttribute("command", "addNewBlacklist");
+            model.addAttribute("error_message", "Vänligen skriver email eller väljer blacklist alternativ");
+            model.addAttribute("isAvailable", false);
+            return "blacklist.html";
+        } else if (customerService.checkIfCustomerExist(email)) {
+            boolean ok = Boolean.parseBoolean(isOk);
+            bookingService.BlacklistHandler(email, ok);
             System.out.println("Add new is success");
             return "redirect:/blacklists";
         } else {
-            model.addAttribute("command", "blacklistAlt");
-            model.addAttribute("command, addNewBookingFailed");
+            model.addAttribute("command", "addNewBlacklist");
+            model.addAttribute("error_message", "Kunden finns inte i systemet");
+            model.addAttribute("isAvailable", false);
             System.out.println("Add new is failed");
             return "blacklist.html";
         }

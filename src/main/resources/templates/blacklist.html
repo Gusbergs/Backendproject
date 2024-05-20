@@ -87,6 +87,9 @@
                 <option value="false">in blacklist</option>
             </select>
             <button th:type="submit" class="btn btn-danger">Addera</button>
+            <div th:if = "${isAvailable} == false">
+                <p th:text="${error_message}" class="warning"></p>
+            </div>
         </form>
     </div>
 </div>

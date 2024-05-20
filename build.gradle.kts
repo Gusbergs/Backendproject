@@ -32,11 +32,22 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	annotationProcessor("org.projectlombok:lombok")
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
-	implementation("io.vertx:vertx-core:3.5.3")
+	implementation("io.vertx:vertx-core:3.5.4")
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 	implementation("com.google.code.gson:gson:2.8.8")
+	testImplementation("com.h2database:h2:2.2.224")
+	implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.0")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+	implementation("com.rabbitmq:amqp-client:5.21.0")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.test{
+	filter{
+		includeTestsMatching("*Test")
+
+	}
 }

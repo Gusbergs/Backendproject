@@ -22,23 +22,12 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class BackendprojectApplication {
 
-	private static BookingService bookingService;
+
+
 
 	public static void main(String[] args) {
-/*
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Ange e-postadress för bokning: ");
-		String email = scanner.nextLine();
 
-		if (bookingService.isBlacklisted(email)) {
-			System.out.println("Personen är blacklistad och kan inte boka hos oss.");
-			// Avbryt bokningsprocessen här
-		} else {
-			System.out.println("Bokningen är godkänd.");
-			// Fortsätt med bokningsprocessen här
-		}
 
- */
 
 		if(args.length == 0) {
 			SpringApplication.run(BackendprojectApplication.class, args);
@@ -48,14 +37,21 @@ public class BackendprojectApplication {
 			application.setWebApplicationType(WebApplicationType.NONE);
 			application.run(args);
 
-		}else if(Objects.equals(args[0], "FetchShippers")){
-		SpringApplication application = new SpringApplication(FetchShippers.class);
-		application.setWebApplicationType(WebApplicationType.NONE);
-		application.run(args);
+		}else if(Objects.equals(args[0], "FetchShippers")) {
+			SpringApplication application = new SpringApplication(FetchShippers.class);
+			application.setWebApplicationType(WebApplicationType.NONE);
+			application.run(args);
+		}
+		else if(Objects.equals(args[0], "ReadQueueApp")){
+				SpringApplication application = new SpringApplication(ReadQueueApp.class);
+				application.setWebApplicationType(WebApplicationType.NONE);
+				application.run(args);
+
+			}
+
 
 	}
-	}
-/*
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
@@ -105,6 +101,8 @@ public class BackendprojectApplication {
 		};
 	}
 
- */
+
+
+
 
 }

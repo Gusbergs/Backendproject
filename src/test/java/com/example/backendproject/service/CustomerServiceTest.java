@@ -1,68 +1,57 @@
 package com.example.backendproject.service;
 
-import com.example.backendproject.dto.CustomerDtoDetailed;
+
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
+import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.backendproject.repo.RoomRepo;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 class CustomerServiceTest {
-
     @Autowired
-    @InjectMocks
+    CustomerServiceTest(CustomerService customerService,RoomRepo roomRepo, BookingRepo bookingRepo){
+        this.customerService = customerService;
+        this.bookingRepo = bookingRepo;
+        this.roomRepo = roomRepo;
+    }
+
     CustomerService customerService;
-
-    @Autowired
-    MockMvc mvc;
-
-    @MockBean
-    private CustomerRepo mockRepo;
-
-
-   @BeforeEach
-   public void init(){
-       Customer c1 = new Customer(1L,"Adam","adam123@gmail.se");
-       Customer c2 = new Customer(2L,"Bob","bob@gmail.se");
-       Customer c3 = new Customer(3L,"Charlie","charlie@gmail.com");
-
-       when(mockRepo.findByEmail("adam123@gmail.se")).thenReturn(Optional.of(c1));
-       when(mockRepo.findByEmail("bob@gmail.se")).thenReturn(Optional.of(c2));
-       when(mockRepo.findByEmail("charlie@gmail.com")).thenReturn(Optional.of(c3));
-   }
+    RoomRepo roomRepo;
+    BookingRepo bookingRepo;
 
 
     @Test
+    public void tryingToSaveCustomer(){
+        Customer customer = new Customer("Bob","bobs@email.se");
+
+        customerService.saveCustomer(customer);
+
+        assertTrue(customerService.checkIfCustomerExist("bobs@email.se"));
+    }
+
+    @Test
     void checkIfCustomerExist() {
-       String email = "charlie@gmail.com";
+        Customer customer = new Customer("Bob","charlie@gmail.com");
 
-       Boolean result = customerService.checkIfCustomerExist(email);
+        customerService.saveCustomer(customer);
+        Boolean result = customerService.checkIfCustomerExist("charlie@gmail.com");
 
-       assertThat(result).isTrue();
+        assertThat(result).isTrue();
     }
     @Test
     void checkIfCustomerDoesNotExist() {
         String email ="DoesNotExist@gmail.com";
-
 
         Boolean result = customerService.checkIfCustomerExist(email);
 
@@ -70,26 +59,75 @@ class CustomerServiceTest {
     }
 
     @Test
-    void saveCustomer() {
-        Customer customer = new Customer(4L, "Test User", "test@example.com");
-
-        customerService.saveCustomer(customer);
-
-        verify(mockRepo).save(customer);
-    }
-
-
-    @Test
-    void deleteCustomer() {
+    @Transactional
+    void tryingToDeleteCustomer() {
 
         Customer customer = new Customer(5L, "Test", "test@example.com");
         customerService.saveCustomer(customer);
 
+        //verifying
+        Boolean result2 = customerService.checkIfCustomerExist("test@example.com");
+        System.out.println("result2: "+result2);
+        assertThat(result2).isTrue();
 
-        customerService.deleteCustomer(customer.getId());
+        //Deleting
+        customerService.deleteCustomerByEmail("test@example.com");
 
-        verify(mockRepo).deleteById(customer.getId());
+        //verifying
+        Boolean result3 = customerService.checkIfCustomerExist("test@example.com");
+        assertThat(result3).isFalse();
+
     }
 
+    @Test
+    @Transactional
+    void checkWhenCustomerHasABooking(){
+
+        //book a room
+        //check if it works
+        LocalDate i1 = LocalDate.of(1999, 12, 11);
+        LocalDate i2 = LocalDate.of(2021, 1, 11);
+
+        Customer customer = new Customer("Viktor", "viktor@mail.com");
+        customerService.saveCustomer(customer);
+
+        Room r1 = new Room(111, false, 0);
+        roomRepo.save(r1);
+
+        Booking booking1 = new Booking(i1, i2, r1, customer);
+        bookingRepo.save(booking1);
+
+        var result = customerService.customerHasABooking(customer.getId());
+
+        assertThat(result).isTrue();
+
+
+    }
+    @Test
+    @Transactional
+    void checkWhenCustomerDoesNotHaveABooking(){
+
+        //book a room
+        //check if it works
+        LocalDate i1 = LocalDate.of(1999, 12, 11);
+        LocalDate i2 = LocalDate.of(2021, 1, 11);
+
+        Customer customer = new Customer("Viktor", "viktor@mail.com");
+        Customer customer2 = new Customer("Mario", "Mario@mail.se");
+        customerService.saveCustomer(customer);
+        customerService.saveCustomer(customer2);
+
+        Room r1 = new Room(111, false, 0);
+        roomRepo.save(r1);
+
+        Booking booking1 = new Booking(i1, i2, r1, customer);
+        bookingRepo.save(booking1);
+
+        var result = customerService.customerHasABooking(customer2.getId());
+
+        assertThat(result).isFalse();
+
+
+    }
 
 }

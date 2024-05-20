@@ -1,16 +1,18 @@
 package com.example.backendproject.service;
 
 
-import com.example.backendproject.dto.BookingDtoMini;
 import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.dto.RoomDtoMini;
+import com.example.backendproject.models.ContractCustomer;
+import com.example.backendproject.models.QueueModel;
 import com.example.backendproject.models.Room;
+import com.example.backendproject.repo.QueueRepository;
 import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,8 @@ public class RoomService {
     final private RoomRepo roomRepo;
 
     final private BookingService bookingService;
+
+    final private QueueRepository queueRepository;
 
    public RoomDtoDetailed roomDtoDetailed(Room room) {
        /*List<BookingDtoMini> bookingDtos = room.getBookings().stream()
@@ -62,5 +66,27 @@ public List<RoomDtoDetailed> getAllRoomsDetailed(){
                .extraBed(room.getExtraBed())
                .build();
     }
+
+
+    public Optional<Room> getRoomById(Long id) {
+        System.out.println("ID: " + id);
+
+        return roomRepo.findById(id);
+    }
+
+
+    public Optional<QueueModel> getQueueModelById(Long id) {
+        System.out.println("ID: " + id);
+
+        return queueRepository.findById(id);
+    }
+
+    public List<QueueModel> getEventsByRoomNo(String roomNumber) {
+        return queueRepository.findByRoomNo(roomNumber);
+    }
+
+
+
+
 
 }

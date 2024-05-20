@@ -105,12 +105,19 @@ public class BookingController {
             Customer bookedCustomer = customerRepo.getReferenceByEmail(email);
             Booking newBooking = new Booking(startDate, endDate, bookedRoom, bookedCustomer);
             bookingRepo.save(newBooking);
+            System.out.println(discountService.getRecentBookingsByCustomerEmail(email));
+
+            System.out.println(discountService.includesSundayToMonday(newBooking.getId()));
+
+            System.out.println(100 * discountService.getDiscount(email, newBooking.getId()));
+
             model.addAttribute("source", "addNewBooking");
             model.addAttribute("newBooking", bookingService.findBookingById(newBooking.getId()));
             return "confirm-booked-room.html";
         }
     }
     
+
 
 
     @GetMapping("/allBookings")

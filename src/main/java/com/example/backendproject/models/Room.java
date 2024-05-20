@@ -20,6 +20,8 @@ public class Room {
     @GeneratedValue
     long id;
 
+    Double price = 100D;
+
     int roomNumber;
 
     boolean doubleRoom;

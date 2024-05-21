@@ -34,7 +34,7 @@ public class FetchShippers implements CommandLineRunner {
 
         for (Shipper p : shippers) {
             shipperService.saveShipper(p);
-            System.out.println(p.companyName);
+            System.out.println("Shipper company name: "+p.companyName);
         }
     }
 }

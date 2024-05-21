@@ -7,7 +7,6 @@ import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import com.example.backendproject.service.BookingService;
-import com.example.backendproject.service.DiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,10 +22,12 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class BackendprojectApplication {
 
-	private static BookingService bookingService;
-	private static DiscountService discountService;
+
+
 
 	public static void main(String[] args) {
+
+
 
 		if(args.length == 0) {
 			SpringApplication.run(BackendprojectApplication.class, args);
@@ -36,14 +37,21 @@ public class BackendprojectApplication {
 			application.setWebApplicationType(WebApplicationType.NONE);
 			application.run(args);
 
-		}else if(Objects.equals(args[0], "FetchShippers")){
-		SpringApplication application = new SpringApplication(FetchShippers.class);
-		application.setWebApplicationType(WebApplicationType.NONE);
-		application.run(args);
+		}else if(Objects.equals(args[0], "FetchShippers")) {
+			SpringApplication application = new SpringApplication(FetchShippers.class);
+			application.setWebApplicationType(WebApplicationType.NONE);
+			application.run(args);
+		}
+		else if(Objects.equals(args[0], "ReadQueueApp")){
+				SpringApplication application = new SpringApplication(ReadQueueApp.class);
+				application.setWebApplicationType(WebApplicationType.NONE);
+				application.run(args);
+
+			}
+
 
 	}
-	}
-/*
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
@@ -93,6 +101,8 @@ public class BackendprojectApplication {
 		};
 	}
 
- */
+
+
+
 
 }

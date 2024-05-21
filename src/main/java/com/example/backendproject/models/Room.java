@@ -20,13 +20,13 @@ public class Room {
     @GeneratedValue
     long id;
 
-    Double price = 100D;
-
     int roomNumber;
 
     boolean doubleRoom;
 
     int extraBed;
+
+    double price = 100;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<Booking> bookings;

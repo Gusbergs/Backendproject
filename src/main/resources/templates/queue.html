@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Room List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link th:rel="stylesheet" th:href="@{/styles.css}">
@@ -28,37 +27,37 @@
                         <form th:action="@{/blacklists}" method="get"><input type="submit" value="Blacklists"></form>
                     </div>
                 </li>
-
-
-
             </ul>
         </div>
     </div>
 </nav>
 <div class="container">
-<h1>Contract Customers</h1>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Country</th>
-        <th>Contact Name</th>
-        <th>Company Name</th>
-        <th>View all info</th>
+    <h1>Room Events</h1>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Room No</th>
+            <th>Time Stamp</th>
+            <th>Type</th>
+            <th>Cleaning By User</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event : ${queue}">
+            <td th:text="${event.id}"></td>
+            <td th:text="${event.roomNo}"></td>
+            <td th:text="${event.timeStamp}"></td>
+            <td th:text="${event.getClass().getSimpleName()}"></td>
+            <td th:switch="${event.getClass().getSimpleName()}">
+                <span th:case="'RoomCleaningFinished'" th:text="${event.cleaningByUser}"></span>
+                <span th:case="'RoomCleaningStarted'" th:text="${event.cleaningByUser}"></span>
 
-    </tr>
-    </thead>
-    <tbody>
-
-    <tr th:each="contractCustomer : ${contractCustomer}">
-        <td th:text="${contractCustomer.country}">Country</td>
-        <td th:text="${contractCustomer.contactName}">Contact Name</td>
-        <td th:text="${contractCustomer.companyName}">Company Name</td>
-        <td>
-            <a th:href="@{'/ContractCustomers/getAllContractCustomersInDetail/' + ${contractCustomer.id}}">View</a>
-        </td>
-    </tr>
-    </tbody>
+            </td>
+        </tr>
+        </tbody>
     </table>
-    </div>
-    </body>
+    <a th:href="@{/rooms}">Gå tillbaka</a>
+</div>
+</body>
 </html>

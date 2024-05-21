@@ -23,7 +23,7 @@ public class ShipperService {
     }
 
     public List<ShipperDtoMini> getAllShippersDtoMini(){
-        return shipperRepo.findAll().stream().map(shipper -> shipperDtoMini(shipper)).toList();
+        return shipperRepo.findAll().stream().map(this::shipperDtoMini).toList();
     }
     public void saveShipper(Shipper shipper) {
         shipperRepo.save(shipper);

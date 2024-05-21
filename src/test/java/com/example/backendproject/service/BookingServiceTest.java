@@ -8,6 +8,7 @@ import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
+import com.example.backendproject.repo.QueueRepository;
 import com.example.backendproject.repo.RoomRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -39,6 +41,8 @@ class BookingServiceTest {
     @MockBean
     RoomRepo roomRepo;
 
+    private QueueRepository queueRepository;
+
     private Booking createMockBooking(Long id) {
         Customer customer = new Customer("Customer" + id, "customer" + id + "@example.com");
         Room room = new Room(100 + id.intValue(), id % 2 == 0, 1);
@@ -50,15 +54,25 @@ class BookingServiceTest {
     @InjectMocks
     @Autowired
     BookingService bookingService = new BookingService(roomRepo, customerRepo);
-    @InjectMocks
-    RoomService roomService = new RoomService(roomRepo, bookingService);
 
-        Customer customer = new Customer("John Doe", "john.doe@example.com");
-        Room room = new Room(101, true, 1);
+
+
+    private XmlStreamProvider xmlStreamProvider = mock(XmlStreamProvider.class);
+
+    @InjectMocks
+    RoomService roomService = new RoomService(roomRepo, bookingService, queueRepository );
+
+    Customer customer = new Customer("John Doe", "john.doe@example.com");
+    Room room = new Room(101, true, 1);
 
         // Skapa Booking-objekt
-        Booking booking = new Booking(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 10), room, customer);
+    Booking booking = new Booking(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 10), room, customer);
 
+    /*@BeforeEach
+    void setUp() {
+        bookingService = new BookingService(roomRepo, customerRepo);
+        roomService = new RoomService(roomRepo, bookingService);
+    }*/
    /* @BeforeEach
     public void init(){
 
@@ -134,9 +148,8 @@ class BookingServiceTest {
         assertTrue(bookingService.findCrossedTime(startDate3, stopDate3, roomDtoDetailed));
     }
 
+
    */
-
-
 
     @Test
     void getBookingById2() {

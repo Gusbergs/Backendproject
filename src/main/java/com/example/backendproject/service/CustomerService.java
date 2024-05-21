@@ -79,10 +79,15 @@ public class CustomerService {
     public void deleteCustomer(Long customerId) {
         customerRepo.deleteById(customerId);
     }
+    public void deleteCustomerByEmail(String email){
+        customerRepo.deleteByEmail(email);
+        customerRepo.flush();
+    }
 
     public boolean customerHasABooking(Long customerId) {
         List<Booking> bookings = bookingRepo.findByCustomerId(customerId);
         return !bookings.isEmpty();
     }
+
 
 }

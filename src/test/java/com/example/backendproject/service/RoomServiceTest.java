@@ -5,9 +5,7 @@ import com.example.backendproject.dto.*;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
-import com.example.backendproject.repo.BookingRepo;
-import com.example.backendproject.repo.CustomerRepo;
-import com.example.backendproject.repo.RoomRepo;
+import com.example.backendproject.repo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,15 +31,22 @@ import static org.mockito.Mockito.*;
 @AutoConfigureMockMvc
 class RoomServiceTest {
 
-    @MockBean
+    @Mock
     RoomRepo roomRepo;
+    @Mock
+    BookingRepo bookingRepo;
+
+    @Mock
+    CustomerRepo customerRepo;
+
+    @Mock
+    QueueRepository queueRepo;
 
     @Autowired
     MockMvc mvc;
 
 
-    @Mock
-    BookingRepo bookingRepo;
+
 
 
     @Autowired
@@ -70,8 +75,7 @@ class RoomServiceTest {
     LocalDate stopDate = LocalDate.of(2024, 5, 3);
 
 
-    Room newRoom = new Room(id1, rn1, dr1, eb1);
-    Room newRoom2 = new Room(id2, rn2, dr2, eb2);
+
 
     /* new Booking(bid1,startDate, stopDate, newRoom, newCustomer);
 
@@ -98,7 +102,11 @@ class RoomServiceTest {
 
     @BeforeEach
     public void init() {
+        bookingService = new BookingService(roomRepo, customerRepo);
+        roomService = new RoomService(roomRepo, bookingService, queueRepo);
        // List<Booking> bookingsList = Arrays.asList(newBooking);
+        Room newRoom = new Room(id1, rn1, dr1, eb1);
+        Room newRoom2 = new Room(id2, rn2, dr2, eb2);
         when(roomRepo.findById(1L)).thenReturn(Optional.of(newRoom));
         when(roomRepo.findById(2L)).thenReturn(Optional.of(newRoom2));
         //when(bookingService.bookingDtoDetailed(newBooking)).thenReturn(bookingDto);
@@ -125,6 +133,10 @@ class RoomServiceTest {
 
     @Test
     void existsById() {
+        //System.out.println(roomRepo.findById(1L));
+        //System.out.println(roomRepo.findById(3L).isPresent());
+        //System.out.println("RoomServiceExist: "+roomService.existsById(3L));
+
         assertThat(roomService.existsById(1L)).isTrue();
         assertThat(roomService.existsById(3L)).isFalse();
     }

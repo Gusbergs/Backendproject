@@ -40,6 +40,7 @@
             <th>Room Number</th>
             <th>Double Room</th>
             <th>Extra Bed</th>
+            <th>Price</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -49,6 +50,8 @@
             <td th:text="${room.roomNumber}">Room Number</td>
             <td th:text="${room.doubleRoom ? 'Yes' : 'No'}">Double Room</td>
             <td th:text="${room.extraBed}">Extra Bed</td>
+            <td th:text="${room.price}">Price</td>
+
             <td>
                 <a th:href="@{/rooms/queue/{id}(id=${room.id})}">View Queue</a>
             </td>

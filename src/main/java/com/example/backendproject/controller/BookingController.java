@@ -13,6 +13,7 @@ import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
+import com.example.backendproject.service.DiscountService;
 import com.example.backendproject.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class BookingController {
 
     private final BookingRepo bookingRepo;
     private final CustomerService customerService;
+
+    private final DiscountService discountService;
 
     /*@Autowired
     public BookingController(BookingService bookingService, RoomService roomService) {
@@ -111,12 +114,26 @@ public class BookingController {
             Customer bookedCustomer = customerRepo.getReferenceByEmail(email);
             Booking newBooking = new Booking(startDate, endDate, bookedRoom, bookedCustomer);
             bookingRepo.save(newBooking);
+            System.out.println(discountService.getRecentBookingsByCustomerEmail(email));
+
+            System.out.println(discountService.includesSundayToMonday(newBooking.getId()));
+
+            double price = newBooking.getRoom().getPrice();
+            double discountPrice = price * discountService.getDiscount(email, newBooking.getId());
+
+            System.out.println(price);
+            System.out.println(discountPrice);
+
+
             model.addAttribute("source", "addNewBooking");
             model.addAttribute("newBooking", bookingService.findBookingById(newBooking.getId()));
+            model.addAttribute("Price", price);
+            model.addAttribute("discountPrice", discountPrice);
             return "confirm-booked-room.html";
         }
     }
-    
+
+
 
 
     @GetMapping("/allBookings")

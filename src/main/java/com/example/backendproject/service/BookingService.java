@@ -69,7 +69,8 @@ public class BookingService {
                 roomDtoMini(new RoomDtoMini(booking.getRoom().getId()
                 ,booking.getRoom().getRoomNumber()
                 ,booking.getRoom().isDoubleRoom()
-                ,booking.getRoom().getExtraBed())).build();
+                ,booking.getRoom().getExtraBed()
+                , booking.getRoom().getPrice())).build();
     }
 
     public BookingDtoMini bookingtoDtoMini(Booking booking) {

@@ -26,22 +26,25 @@ public class Room {
 
     int extraBed;
 
-    double price = 100;
+    double price;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
-    public Room(int roomNumber, boolean doubleRoom, int extraBed){
+    public Room(int roomNumber, boolean doubleRoom, int extraBed, double price){
         this.roomNumber = roomNumber;
         this.doubleRoom = doubleRoom;
         this.extraBed = extraBed;
+        this.price = price;
     }
-    public Room(Long id,int roomNumber, boolean doubleRoom, int extraBed){
+   public Room(Long id,int roomNumber, boolean doubleRoom, int extraBed){
         this.id = id;
         this.roomNumber = roomNumber;
         this.doubleRoom = doubleRoom;
         this.extraBed = extraBed;
     }
+
+
 
 
 }

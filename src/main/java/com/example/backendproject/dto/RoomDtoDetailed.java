@@ -17,8 +17,8 @@ public class RoomDtoDetailed {
     int roomNumber;
     boolean doubleRoom;
     int extraBed;
+    double price;
 
-    //BookingDtoMini bookingDtoMini;
 
     private List<BookingDtoDetailed> bookingDtoDetailedList;
 

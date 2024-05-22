@@ -52,7 +52,7 @@ public class BackendprojectApplication {
 
 	}
 
-	@Bean
+/*	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
 		return (args) -> {
@@ -64,12 +64,12 @@ public class BackendprojectApplication {
 			LocalDate o2 = LocalDate.of(2021, 5, 2);
 			LocalDate o3 = LocalDate.of(2022, 11, 1);
 
-			Room r1 = new Room(222, false, 0);
-			Room r2 = new Room(111, false, 1);
-			Room r3 = new Room(333, true, 2);
-			Room r4 = new Room(444, true, 2);
-			Room r5 = new Room(555, true, 0);
-			Room r6 = new Room(666, false, 1);
+			Room r1 = new Room(222, false, 0, 399);
+			Room r2 = new Room(111, false, 1, 499);
+			Room r3 = new Room(333, true, 2, 599);
+			Room r4 = new Room(444, true, 2, 699);
+			Room r5 = new Room(555, true, 0, 799);
+			Room r6 = new Room(666, false, 1, 899);
 
 
 			Customer c1 = new Customer("kalle ", "Hej@kalle.123");
@@ -100,6 +100,11 @@ public class BackendprojectApplication {
 
 		};
 	}
+
+
+ */
+
+
 
 
 

@@ -34,6 +34,7 @@ public class RoomService {
                .roomNumber(room.getRoomNumber())
                .doubleRoom(room.isDoubleRoom())
                .extraBed(room.getExtraBed())
+               .price(room.getPrice())
                .bookingDtoDetailedList(room.getBookings()
                        .stream()
                        .map(booking -> bookingService.bookingDtoDetailed(booking))
@@ -42,7 +43,7 @@ public class RoomService {
    }
 
    public RoomDtoMini roomDtoMini(Room room) {
-       return RoomDtoMini.builder().id(room.getId()).roomNumber(room.getRoomNumber()).doubleRoom(room.isDoubleRoom()).extraBed(room.getExtraBed()).build();
+       return RoomDtoMini.builder().id(room.getId()).roomNumber(room.getRoomNumber()).doubleRoom(room.isDoubleRoom()).extraBed(room.getExtraBed()).price(room.getPrice()).build();
    }
 public List<RoomDtoDetailed> getAllRoomsDetailed(){
        return roomRepo.findAll().stream().map(room -> roomDtoDetailed(room)).toList();

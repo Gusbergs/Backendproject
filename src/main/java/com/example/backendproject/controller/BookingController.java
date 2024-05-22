@@ -118,14 +118,21 @@ public class BookingController {
 
             System.out.println(discountService.includesSundayToMonday(newBooking.getId()));
 
-            System.out.println(100 * discountService.getDiscount(email, newBooking.getId()));
+            double price = newBooking.getRoom().getPrice();
+            double discountPrice = price * discountService.getDiscount(email, newBooking.getId());
+
+            System.out.println(price);
+            System.out.println(discountPrice);
+
 
             model.addAttribute("source", "addNewBooking");
             model.addAttribute("newBooking", bookingService.findBookingById(newBooking.getId()));
+            model.addAttribute("Price", price);
+            model.addAttribute("discountPrice", discountPrice);
             return "confirm-booked-room.html";
         }
     }
-    
+
 
 
 

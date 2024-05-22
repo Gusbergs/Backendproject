@@ -17,6 +17,6 @@ public class RoomDtoMini {
     int roomNumber;
     boolean doubleRoom;
     int extraBed;
-
+    double price;
 
 }

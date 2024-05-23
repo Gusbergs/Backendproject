@@ -43,6 +43,11 @@ public class Room {
         this.doubleRoom = doubleRoom;
         this.extraBed = extraBed;
     }
+    public Room(int roomNumber, boolean doubleRoom, int extraBed){
+        this.roomNumber = roomNumber;
+        this.doubleRoom = doubleRoom;
+        this.extraBed = extraBed;
+    }
 
 
 

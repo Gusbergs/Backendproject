@@ -38,7 +38,7 @@ public class UserDataSeeder {
         roles.add(roleRepo.findByName(group));
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String hash = encoder.encode("Hejsan123#");
+        String hash = encoder.encode("123");
         User user = User.builder().enabled(true).password(hash).username(mail).roles(roles).build();
         userRepo.save(user);
     }

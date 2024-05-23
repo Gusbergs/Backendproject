@@ -6,8 +6,10 @@ import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
+import com.example.backendproject.security.UserDataSeeder;
 import com.example.backendproject.service.BookingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -24,9 +26,10 @@ public class BackendprojectApplication {
 
 
 
+	@Autowired
+	private UserDataSeeder userDataSeeder;
 
 	public static void main(String[] args) {
-
 
 
 		if(args.length == 0) {
@@ -52,7 +55,7 @@ public class BackendprojectApplication {
 
 	}
 
-/*	@Bean
+@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
 		return (args) -> {
@@ -81,6 +84,8 @@ public class BackendprojectApplication {
 			Booking booking2 = new Booking(i2, o2, r2, c2);
 			Booking booking3 = new Booking(i3, o3, r3, c3);
 
+			userDataSeeder.Seed();
+
 			roomRepo.save(r1);
 			roomRepo.save(r2);
 			roomRepo.save(r3);
@@ -102,7 +107,7 @@ public class BackendprojectApplication {
 	}
 
 
- */
+
 
 
 

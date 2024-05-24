@@ -25,6 +25,7 @@
                         <form th:action="@{/rooms}" method="get"><input type="submit" value="All rooms"></form>
                         <form th:action="@{/ContractCustomers/getAllContractCustomers}" method = "get"><input type="submit" value="All contracted customers"></form>
                         <form th:action="@{/blacklists}" method="get"><input type="submit" value="Blacklists"></form>
+                        <form th:action="@{/User/addUser}" method="get"><input type="submit" value="Users"></form>
                         <form th:action="@{/logout}" method="get"><input type="submit" value="Logout"></form>
 
                     </div>
@@ -76,7 +77,12 @@
         <tr th:each="user : ${user}">
             <td th:text="${user.username}">Email</td>
             <td th:each="role : ${user.roles}" th:text="${role}">Role</td>
-
+            <td>
+                <form th:action="@{'/User/delete/' + ${user.id}}" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
 
         </tr>
         </tbody>

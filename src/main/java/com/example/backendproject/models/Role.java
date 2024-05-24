@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Role")
+@Table(name = "Roletable")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

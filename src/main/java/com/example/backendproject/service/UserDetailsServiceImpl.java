@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -70,13 +71,34 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
-    public void addUserWithPassword(String mail, String password, String  group) {
-        ArrayList<Role> roles = new ArrayList<>();
-        roleRepo.findByName(group);
-
+    public void addUserWithPassword(String mail, String password, String groupName) {
+        Role role = roleRepo.findByName(groupName);
+        if (role == null) {
+            throw new RuntimeException("Role not found for name: " + groupName);
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String hash = encoder.encode(password);
-        User user = User.builder().enabled(true).password(hash).username(mail).roles(roles).build();
+
+        User user = User.builder()
+                .enabled(true)
+                .password(hash)
+                .username(mail)
+                .build();
+        if (user.getRoles() == null) {
+            user.setRoles(new ArrayList<>());
+        } else {
+            for (Role existingRole : user.getRoles()) {
+                if (existingRole.getName().equals(groupName)) {
+
+                    return;
+                }
+            }
+        }
+        user.getRoles().add(role);
+        roleRepo.save(role);
         userRepo.save(user);
     }
+
+
+
 }

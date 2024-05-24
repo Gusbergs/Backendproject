@@ -1,10 +1,7 @@
 package com.example.backendproject.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,4 +27,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
+
+    public User(String email, String password, Collection roles) {
+    }
+
+
 }

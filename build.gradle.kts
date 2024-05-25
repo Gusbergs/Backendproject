@@ -41,6 +41,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.0")
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 	implementation("com.rabbitmq:amqp-client:5.21.0")
+	implementation("org.springframework.boot:spring-boot-starter-mail:3.3.0")
 }
 
 tasks.withType<Test> {

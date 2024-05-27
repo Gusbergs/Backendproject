@@ -45,6 +45,6 @@ public class Room {
     }
 
 
-
-
+    public Room(int i, boolean b, int i1) {
+    }
 }

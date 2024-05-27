@@ -40,12 +40,12 @@ public class BookingServiceTest {
 
     @BeforeEach
     public void setUp() {
-        // Clear all data from the repositories
+
         bookingRepo.deleteAll();
         roomRepo.deleteAll();
         customerRepo.deleteAll();
 
-        // Set up initial data
+
         customer = new Customer();
         customer.setName("John Doe");
         customer.setEmail("john.doe@example.com");

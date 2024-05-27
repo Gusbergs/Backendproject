@@ -114,9 +114,6 @@ public class BookingController {
             Customer bookedCustomer = customerRepo.getReferenceByEmail(email);
             Booking newBooking = new Booking(startDate, endDate, bookedRoom, bookedCustomer);
             bookingRepo.save(newBooking);
-            System.out.println(discountService.getRecentBookingsByCustomerEmail(email));
-
-            System.out.println(discountService.includesSundayToMonday(newBooking.getId()));
 
             double price = newBooking.getRoom().getPrice();
             double discountPrice = price * discountService.getDiscount(email, newBooking.getId());

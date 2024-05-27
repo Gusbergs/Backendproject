@@ -3,6 +3,7 @@ package com.example.backendproject.service;
 import com.example.backendproject.controller.BookingController;
 import com.example.backendproject.dto.*;
 import com.example.backendproject.models.*;
+import com.example.backendproject.models.QueueModels.*;
 import com.example.backendproject.repo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -182,6 +184,43 @@ class RoomServiceTest {
     @Test
     void getEventsByRoomNoTest() {
         QueueModel queue1 = new RoomOpened();
+        queue1.setId(1L);
+        queue1.setRoomNo("4");
+        queue1.setTimeStamp(LocalDateTime.of(2024, 5, 28, 6, 13, 4));
+
+        RoomCleaningStarted queue2 = new RoomCleaningStarted();
+        queue2.setId(2L);
+        queue2.setRoomNo("4");
+        queue2.setTimeStamp(LocalDateTime.of(2024, 5, 28, 6, 13, 5));
+        queue2.setCleaningByUser("Roy Mustang");
+
+        RoomCleaningFinished queue3 = new RoomCleaningFinished();
+        queue2.setId(2L);
+        queue2.setRoomNo("4");
+        queue2.setTimeStamp(LocalDateTime.of(2024, 5, 28, 6, 13, 15));
+        queue2.setCleaningByUser("Roy Mustang");
+
+        QueueModel queue4 = new RoomClosed();
+        queue4.setId(1L);
+        queue4.setRoomNo("4");
+        queue4.setTimeStamp(LocalDateTime.of(2024, 5, 28, 6, 13, 16));
+
+        List<QueueModel> queueModelList = Arrays.asList(queue1, queue2, queue3, queue4);
+        when(queueRepo.findByRoomNo("4")).thenReturn(queueModelList);
+
+        // Act
+        List<QueueModel> result = roomService.getEventsByRoomNo("4");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(4, result.size());
+        assertEquals("4", result.get(0).getRoomNo());
+        assertTrue(result.get(0) instanceof RoomOpened);
+        assertTrue(result.get(1) instanceof RoomCleaningStarted);
+        assertTrue(result.get(2) instanceof RoomCleaningFinished);
+        assertTrue(result.get(3) instanceof RoomClosed);
+
+        verify(queueRepo, times(1)).findByRoomNo("4");
 
     }
 }

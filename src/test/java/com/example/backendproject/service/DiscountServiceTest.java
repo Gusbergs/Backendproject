@@ -33,7 +33,7 @@ class DiscountServiceTest {
     private String testEmail;
     private Long testBookingId;
 
-    @BeforeEach
+   @BeforeEach
     public void setup() {
         testEmail = "customer@example.com";
         LocalDate checkInDate = LocalDate.of(2024, 5, 24);
@@ -74,14 +74,13 @@ class DiscountServiceTest {
         for (int i = 0; i < 10; i++) {
             testEmail = "customer@example10.com";
             LocalDate checkInDate = LocalDate.of(2024, 5, 24);
-            LocalDate checkOutDate = LocalDate.of(2024, 5, 27);
+            LocalDate checkOutDate = LocalDate.of(2024, 5, 26);
 
             Customer customer = new Customer(customerId, "Kalle", testEmail);
             Room room = new Room(1, false, 0, 100);
             customerRepo.save(customer);
             roomRepo.save(room);
             Booking booking = new Booking(checkInDate, checkOutDate, room, customer);
-            customerId++;
             booking.setCheckInDate(LocalDate.now().minusMonths(2 + i));
             booking.setCheckOutDate(LocalDate.now().minusMonths(2 + i).plusDays(1));
             bookingRepo.save(booking);
@@ -90,6 +89,8 @@ class DiscountServiceTest {
         Booking booking = bookingRepo.findById(testBookingId).get();
         booking.setCheckInDate(LocalDate.of(2024, 5, 22));
         booking.setCheckOutDate(LocalDate.of(2024, 5, 23)); // 1 dag, inkluderar inte söndag-måndag
+
+
         bookingRepo.save(booking);
 
         double discount = discountService.getDiscount(testEmail, testBookingId);
@@ -98,11 +99,11 @@ class DiscountServiceTest {
 
     @Test
     public void testGetDiscount_NoRecentBookings_LongDuration_NoSundayToMonday() {
-        testEmail = "customer@example.com";
+        testEmail = "customer@exampleDisc57.com";
         LocalDate checkInDate = LocalDate.of(2024, 5, 22);
         LocalDate checkOutDate = LocalDate.of(2024, 5, 24);
 
-        Customer customer = new Customer(1L, "Kalle", testEmail);
+        Customer customer = new Customer( "Kalle", testEmail);
         Room room = new Room(1, false, 0, 100);
         customerRepo.save(customer);
         roomRepo.save(room);
@@ -115,7 +116,7 @@ class DiscountServiceTest {
 
     @Test
     public void testGetDiscount_NoRecentBookings_ShortDuration_SundayToMonday() {
-        testEmail = "customer@example.com";
+        testEmail = "customer@example50.com";
         LocalDate checkInDate = LocalDate.of(2024, 5, 26);
         LocalDate checkOutDate = LocalDate.of(2024, 5, 27);
 
@@ -144,7 +145,6 @@ class DiscountServiceTest {
             customerRepo.save(customer);
             roomRepo.save(room);
             Booking booking = new Booking(checkInDate, checkOutDate, room, customer);
-            customerId++;
             bookingRepo.save(booking);
         }
 

@@ -45,7 +45,7 @@ class BookingServiceTest {
 
     private Booking createMockBooking(Long id) {
         Customer customer = new Customer("Customer" + id, "customer" + id + "@example.com");
-        Room room = new Room(100 + id.intValue(), id % 2 == 0, 1);
+        Room room = new Room(100 + id.intValue(), id % 2 == 0, 1, 100);
         return new Booking(id, LocalDate.now(), LocalDate.now().plusDays(1), room, customer);
     }
 
@@ -63,7 +63,7 @@ class BookingServiceTest {
     RoomService roomService = new RoomService(roomRepo, bookingService, queueRepository );
 
     Customer customer = new Customer("John Doe", "john.doe@example.com");
-    Room room = new Room(101, true, 1);
+    Room room = new Room(101, true, 1, 100);
 
         // Skapa Booking-objekt
     Booking booking = new Booking(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 10), room, customer);

@@ -91,7 +91,7 @@ class CustomerServiceTest {
         Customer customer = new Customer("Viktor", "viktor@mail.com");
         customerService.saveCustomer(customer);
 
-        Room r1 = new Room(111, false, 0);
+        Room r1 = new Room(111, false, 0, 100);
         roomRepo.save(r1);
 
         Booking booking1 = new Booking(i1, i2, r1, customer);
@@ -117,7 +117,7 @@ class CustomerServiceTest {
         customerService.saveCustomer(customer);
         customerService.saveCustomer(customer2);
 
-        Room r1 = new Room(111, false, 0);
+        Room r1 = new Room(111, false, 0, 100);
         roomRepo.save(r1);
 
         Booking booking1 = new Booking(i1, i2, r1, customer);

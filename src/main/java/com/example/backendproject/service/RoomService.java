@@ -1,6 +1,7 @@
 package com.example.backendproject.service;
 
 
+import com.example.backendproject.dto.BookingDtoDetailed;
 import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.dto.RoomDtoMini;
 import com.example.backendproject.models.ContractCustomer;
@@ -11,8 +12,11 @@ import com.example.backendproject.repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +32,21 @@ public class RoomService {
        /*List<BookingDtoMini> bookingDtos = room.getBookings().stream()
                .map(booking -> new BookingDtoMini(booking.getId(), booking.getCheckInDate(), booking.getCheckOutDate()))
                .collect(Collectors.toList());*/
-
+       List<BookingDtoDetailed> bookingDtoDetaileds = new ArrayList<>();
        return RoomDtoDetailed.builder()
+               .id(room.getId())
+               .roomNumber(room.getRoomNumber())
+               .doubleRoom(room.isDoubleRoom())
+               .extraBed(room.getExtraBed())
+               .price(room.getPrice())
+               .bookingDtoDetailedList(Optional.ofNullable(room.getBookings())
+                       .orElse(Collections.emptyList())
+                       .stream()
+                       .map(booking -> bookingService.bookingDtoDetailed(booking))
+                       .collect(Collectors.toList()))
+               .build();
+
+       /*return RoomDtoDetailed.builder()
                .id(room.getId())
                .roomNumber(room.getRoomNumber())
                .doubleRoom(room.isDoubleRoom())
@@ -40,10 +57,18 @@ public class RoomService {
                        .map(booking -> bookingService.bookingDtoDetailed(booking))
                        .toList())
                .build();
+               */
+
    }
 
    public RoomDtoMini roomDtoMini(Room room) {
-       return RoomDtoMini.builder().id(room.getId()).roomNumber(room.getRoomNumber()).doubleRoom(room.isDoubleRoom()).extraBed(room.getExtraBed()).price(room.getPrice()).build();
+       return RoomDtoMini.builder()
+               .id(room.getId())
+               .roomNumber(room.getRoomNumber())
+               .doubleRoom(room.isDoubleRoom())
+               .extraBed(room.getExtraBed())
+               .price(room.getPrice())
+               .build();
    }
 public List<RoomDtoDetailed> getAllRoomsDetailed(){
        return roomRepo.findAll().stream().map(room -> roomDtoDetailed(room)).toList();

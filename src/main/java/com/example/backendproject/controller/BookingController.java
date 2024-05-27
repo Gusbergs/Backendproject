@@ -126,7 +126,7 @@ public class BookingController {
 
 
             Map<String, Object> variables = new HashMap<>();
-            variables.put("name", bookedCustomer.getName().toUpperCase(Locale.ROOT));
+            variables.put("name", bookedCustomer.getName());
             variables.put("nr", bookedRoom.getRoomNumber());
             variables.put("startDate", startDate);
             variables.put("endDate",endDate);
@@ -134,7 +134,7 @@ public class BookingController {
             variables.put("goodByeMsg", "Välkommen åter!");
 
             try {
-                emailService.sendHtmlEmail("trace.rowe@ethereal.email", "Test Email", variables);
+                emailService.sendHtmlEmail(bookedCustomer.getEmail(), "Bekräftelse bokning", variables);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

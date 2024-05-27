@@ -3,47 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Email Template</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .col {
+            flex: 1;
+            padding: 10px;
+        }
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        .card-body {
+            padding: 1.25rem;
+        }
+        .card-title {
+            margin-bottom: 0.75rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        .card-text {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .font-weight-bold {
+            font-weight: 700;
+        }
+        .text-center {
+            text-align: center;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #dee2e6;
+            margin: 1rem 0;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title text-center" th:text="'Hej ' + ${name} + '! Din bokning är nu bokad!'">Default Message</h2>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <p class="card-text" th:text="'Hotellrum Nr: ' + ${nr}">Default Message2</p>
-                        </div>
-                        <div class="col">
-                            <p class="card-text" th:text="'Från: ' + ${startDate}">Default Message3</p>
-                        </div>
-                        <div class="col">
-                            <p class="card-text" th:text="'Till: ' + ${endDate}">Default Message3</p>
-                        </div>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title" th:text="'Hej ' + ${name} + '! Din bokning är nu bokad!'">Default Message</h2>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text" th:text="'Hotellrum Nr: ' + ${nr}">Default Message2</p>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="card-text font-weight-bold" th:text="'Total priset blir ' + ${discountPrice} + ' Kr'">Default Message3</p>
-                        </div>
+                    <div class="col">
+                        <p class="card-text" th:text="'Från: ' + ${startDate}">Default Message3</p>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <p class="card-text text-center" th:text="${goodByeMsg}">Default Message3</p>
-                        </div>
+                    <div class="col">
+                        <p class="card-text" th:text="'Till: ' + ${endDate}">Default Message3</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text font-weight-bold" th:text="'Total priset blir ' + ${discountPrice} + ' Kr'">Default Message3</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text text-center" th:text="${goodByeMsg}">Default Message3</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

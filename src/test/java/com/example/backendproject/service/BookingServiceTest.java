@@ -1,200 +1,97 @@
 package com.example.backendproject.service;
 
 import com.example.backendproject.dto.BookingDtoDetailed;
-import com.example.backendproject.dto.BookingDtoMini;
-import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
-import com.example.backendproject.repo.QueueRepository;
 import com.example.backendproject.repo.RoomRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 @SpringBootTest
-class BookingServiceTest {
+@Transactional
+public class BookingServiceTest {
 
-    @MockBean
-   private BookingRepo bookingRepo;
-    @MockBean
-    private CustomerRepo customerRepo;
-    @MockBean
-    RoomRepo roomRepo;
-
-    private QueueRepository queueRepository;
-
-    private Booking createMockBooking(Long id) {
-        Customer customer = new Customer("Customer" + id, "customer" + id + "@example.com");
-        Room room = new Room(100 + id.intValue(), id % 2 == 0, 1);
-        return new Booking(id, LocalDate.now(), LocalDate.now().plusDays(1), room, customer);
-    }
-
-
-
-    @InjectMocks
     @Autowired
-    BookingService bookingService = new BookingService(roomRepo, customerRepo);
+    private BookingService bookingService;
 
+    @Autowired
+    private BookingRepo bookingRepo;
 
+    @Autowired
+    private RoomRepo roomRepo;
 
-    private XmlStreamProvider xmlStreamProvider = mock(XmlStreamProvider.class);
+    @Autowired
+    private CustomerRepo customerRepo;
 
-    @InjectMocks
-    RoomService roomService = new RoomService(roomRepo, bookingService, queueRepository );
+    private Customer customer;
+    private Room room;
+    private Booking booking;
 
-    Customer customer = new Customer("John Doe", "john.doe@example.com");
-    Room room = new Room(101, true, 1);
+    @BeforeEach
+    public void setUp() {
+        // Clear all data from the repositories
+        bookingRepo.deleteAll();
+        roomRepo.deleteAll();
+        customerRepo.deleteAll();
 
-        // Skapa Booking-objekt
-    Booking booking = new Booking(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 10), room, customer);
+        // Set up initial data
+        customer = new Customer();
+        customer.setName("John Doe");
+        customer.setEmail("john.doe@example.com");
+        customerRepo.save(customer);
 
-    /*@BeforeEach
-    void setUp() {
-        bookingService = new BookingService(roomRepo, customerRepo);
-        roomService = new RoomService(roomRepo, bookingService);
-    }*/
-   /* @BeforeEach
-    public void init(){
+        room = new Room();
+        room.setRoomNumber(101);
+        room.setDoubleRoom(true);
+        room.setExtraBed(0);
+        room.setPrice(100.0);
+        roomRepo.save(room);
 
-    long id = 1L;
-    LocalDate checkIn = LocalDate.of(2022, 11, 1);
-    LocalDate checkOut = LocalDate.of(2022, 11, 23);
-    Room room = new Room(1, true, 1);
-    Customer customer = new Customer("kalle ", "Hej@kalle.123");
-    Booking booking = new Booking(checkIn, checkOut, room, customer);
-    RoomDtoDetailed roomDtoDetailed = roomService.roomDtoDetailed(room);
-
-    when(roomService.getAllRoomsDetailed()).thenReturn((List<RoomDtoDetailed>) roomDtoDetailed);
-
-
-
-    }
-
-    */
-
-
-    @Test
-    void bookingDtoDetailed() {
-
-        BookingDtoDetailed result = bookingService.bookingDtoDetailed(booking);
-
-        assertAll(
-                () -> assertEquals(booking.getId(), result.getId(), "Booking ID should match"),
-                () -> assertEquals(booking.getCheckInDate(), result.getCheckInDate(), "Check-in dates should match"),
-                () -> assertEquals(booking.getCheckOutDate(), result.getCheckOutDate(), "Check-out dates should match"),
-                () -> assertNotNull(result.getCustomerDtoMini(), "Customer DTO should not be null"),
-                () -> assertEquals(customer.getId(), result.getCustomerDtoMini().getId(), "Customer IDs should match"),
-                () -> assertEquals(customer.getName(), result.getCustomerDtoMini().getName(), "Customer names should match"),
-                () -> assertEquals(customer.getEmail(), result.getCustomerDtoMini().getEmail(), "Customer emails should match"),
-                () -> assertNotNull(result.getRoomDtoMini(), "Room DTO should not be null"),
-                () -> assertEquals(room.getId(), result.getRoomDtoMini().getId(), "Room IDs should match"),
-                () -> assertEquals(room.getRoomNumber(), result.getRoomDtoMini().getRoomNumber(), "Room numbers should match"),
-                () -> assertEquals(room.isDoubleRoom(), result.getRoomDtoMini().isDoubleRoom(), "Room type should match"),
-                () -> assertEquals(room.getExtraBed(), result.getRoomDtoMini().getExtraBed(), "Extra bed status should match")
-        );
+        booking = new Booking();
+        booking.setCheckInDate(LocalDate.of(2024, 6, 1));
+        booking.setCheckOutDate(LocalDate.of(2024, 6, 10));
+        booking.setCustomer(customer);
+        booking.setRoom(room);
+        bookingRepo.save(booking);
     }
 
     @Test
-    void bookingtoDtoMini() {
-        BookingDtoMini result = bookingService.bookingtoDtoMini(booking);
-        assertAll(
-                () -> assertEquals(booking.getId(), result.getId(), "Booking ID should match"),
-                () -> assertEquals(booking.getCheckInDate(), result.getCheckInDate(), "Check-in dates should match"),
-                () -> assertEquals(booking.getCheckOutDate(), result.getCheckOutDate(), "Check-out dates should match")
-        );
-    }
-
-  /* @Test
-    void findCrossedTime(){
-        boolean isTheRoomExist = false;
-        for (RoomDtoDetailed getRoom : roomService.getAllRoomsDetailed()) {
-            if (getRoom.getId() == 1L) {
-                roomDtoDetailed = getRoom;
-                isTheRoomExist = true;
-                break;
-            }
-        }
-        if (isTheRoomExist) {
-            System.out.println(roomDtoDetailed.getId() + " " + roomDtoDetailed.getRoomNumber());
-        } else {
-            System.out.println("Can't find the id '154'");
-        }
-
-        System.out.println(bookingService.findCrossedTime(startDate, stopDate, roomDtoDetailed));
-        System.out.println(bookingService.findCrossedTime(startDate2, stopDate2, roomDtoDetailed));
-
-        assertTrue(bookingService.findCrossedTime(startDate, stopDate, roomDtoDetailed));
-        assertTrue(bookingService.findCrossedTime(startDate2, stopDate2, roomDtoDetailed));
-        assertTrue(bookingService.findCrossedTime(startDate3, stopDate3, roomDtoDetailed));
-    }
-
-
-   */
-
-    @Test
-    void getBookingById2() {
-    }
-
-  /*  @Test
-    void getAllBookingsDetailed() {
-        List<Booking> mockBookings = Arrays.asList(
-                createMockBooking(1L),
-                createMockBooking(2L),
-                createMockBooking(3L)
-        );
-
-        when(bookingRepo.findAll()).thenReturn(mockBookings);
-
-        // Call the method under test
-        List<BookingDtoDetailed> result = bookingService.getAllBookingsDetailed();
-
-        // Assertions
-        assertEquals(3, result.size(), "Should return a list of 3 detailed bookings");
-        verify(mockBookings).findAll(); // Verify that findAll was called
-        mockBookings.forEach(booking ->
-                verify(bookingService).bookingDtoDetailed(booking) // Verify that bookingDtoDetailed was called for each booking
-        );
-    }
-
-   */
-
-    @Test
-    void getAllBookingsMini() {
+    public void testGetBookingById() {
+        BookingDtoDetailed bookingDto = bookingService.getBookingById2(booking.getId());
+        assertThat(bookingDto).isNotNull();
+        assertThat(bookingDto.getCustomerDtoMini().getName()).isEqualTo("John Doe");
     }
 
     @Test
-    void findAllBookings() {
+    public void testFindAllBookings() {
+        assertThat(bookingService.findAllBookings()).hasSize(1);
     }
 
     @Test
-    void deleteBookingById() {
+    public void testDeleteBookingById() {
+        bookingService.deleteBookingById(booking.getId());
+        Optional<Booking> deletedBooking = bookingRepo.findById(booking.getId());
+        assertThat(deletedBooking).isEmpty();
     }
 
     @Test
-    void findBookingById() {
-    }
-
-    @Test
-    void updateBookingById() {
+    public void testUpdateBookingById() {
+        LocalDate newCheckInDate = LocalDate.of(2024, 7, 1);
+        LocalDate newCheckOutDate = LocalDate.of(2024, 7, 10);
+        bookingService.updateBookingById(booking.getId(), newCheckInDate, newCheckOutDate, room.getId());
+        Booking updatedBooking = bookingRepo.findById(booking.getId()).get();
+        assertThat(updatedBooking.getCheckInDate()).isEqualTo(newCheckInDate);
+        assertThat(updatedBooking.getCheckOutDate()).isEqualTo(newCheckOutDate);
     }
 }

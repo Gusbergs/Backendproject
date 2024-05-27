@@ -1,10 +1,7 @@
 package com.example.backendproject.service;
 
-import com.example.backendproject.dto.ShipperDtoMini;
 import com.example.backendproject.dto.UserDtoMini;
-import com.example.backendproject.models.Customer;
 import com.example.backendproject.models.Role;
-import com.example.backendproject.models.Shipper;
 import com.example.backendproject.models.User;
 import com.example.backendproject.repo.RoleRepo;
 import com.example.backendproject.repo.UserRepo;
@@ -18,13 +15,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepo userRepo;
@@ -44,9 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new ConcreteUserDetails(user);
     }
 
-    public void saveUser (User user) {
-        userRepo.save(user);
-    }
+
 
 
     public boolean checkIfUserExist(String email){

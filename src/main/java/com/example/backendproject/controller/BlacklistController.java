@@ -5,6 +5,7 @@ import com.example.backendproject.models.Blacklist;
 import com.example.backendproject.service.BookingService;
 import com.example.backendproject.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,9 @@ import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
+
 @RequestMapping("/blacklists")
+@PreAuthorize("hasAuthority('Admin')")
 public class BlacklistController {
 
     private final BookingService bookingService;

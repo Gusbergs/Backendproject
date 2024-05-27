@@ -24,7 +24,7 @@ public class DiscountService {
     @Autowired
     private BookingRepo bookingRepo;
 
-    public boolean getRecentBookingsByCustomerEmail(String email) {
+    private boolean getRecentBookingsByCustomerEmail(String email) {
 
         LocalDate oneYearAgo = LocalDate.now().minusYears(1);
 
@@ -33,7 +33,7 @@ public class DiscountService {
         return bookings.size() >= 10; // Returnerar true om antalet bokningar är 10 eller fler
     }
 
-    public boolean isDurationAtLeastTwoDays(Long bookingId) {
+    private boolean isDurationAtLeastTwoDays(Long bookingId) {
         Optional<Booking> bookingOpt = bookingRepo.findById(bookingId);
         if (bookingOpt.isPresent()) {
             Booking booking = bookingOpt.get();
@@ -46,7 +46,7 @@ public class DiscountService {
         return false;
     }
 
-    public boolean includesSundayToMonday(Long bookingId) {
+    private boolean includesSundayToMonday(Long bookingId) {
         Optional<Booking> bookingOpt = bookingRepo.findById(bookingId);
         if (bookingOpt.isPresent()) {
             Booking booking = bookingOpt.get();

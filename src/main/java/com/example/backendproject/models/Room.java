@@ -44,12 +44,13 @@ public class Room {
         this.extraBed = extraBed;
     }
     public Room(int roomNumber, boolean doubleRoom, int extraBed){
+        this.id = id;
         this.roomNumber = roomNumber;
         this.doubleRoom = doubleRoom;
         this.extraBed = extraBed;
     }
 
 
-
-
+    public Room(int i, boolean b, int i1) {
+    }
 }

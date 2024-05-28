@@ -1,6 +1,6 @@
 package com.example.backendproject.security;
 
-import com.example.backendproject.service.UserDetailsServiceImpl;
+import com.example.backendproject.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,7 +18,7 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        return new UserService();
     }
 
     @Bean

@@ -11,10 +11,8 @@ import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
 import com.example.backendproject.repo.RoomRepo;
-import com.example.backendproject.service.BookingService;
-import com.example.backendproject.service.CustomerService;
-import com.example.backendproject.service.DiscountService;
-import com.example.backendproject.service.RoomService;
+import com.example.backendproject.service.*;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,14 +21,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/bookings")
 @RequiredArgsConstructor
 public class BookingController {
 
+    @Autowired
+    private EmailService emailService;
 
 
     private final BookingService bookingService;
@@ -114,9 +113,6 @@ public class BookingController {
             Customer bookedCustomer = customerRepo.getReferenceByEmail(email);
             Booking newBooking = new Booking(startDate, endDate, bookedRoom, bookedCustomer);
             bookingRepo.save(newBooking);
-            System.out.println(discountService.getRecentBookingsByCustomerEmail(email));
-
-            System.out.println(discountService.includesSundayToMonday(newBooking.getId()));
 
             double price = newBooking.getRoom().getPrice();
             double discountPrice = price * discountService.getDiscount(email, newBooking.getId());
@@ -124,6 +120,21 @@ public class BookingController {
             System.out.println(price);
             System.out.println(discountPrice);
 
+
+
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("name", bookedCustomer.getName());
+            variables.put("nr", bookedRoom.getRoomNumber());
+            variables.put("startDate", startDate);
+            variables.put("endDate",endDate);
+            variables.put("discountPrice", discountPrice);
+            variables.put("goodByeMsg", "Välkommen åter!");
+
+            try {
+                emailService.sendHtmlEmail(bookedCustomer.getEmail(), "Bekräftelse bokning", variables);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
 
             model.addAttribute("source", "addNewBooking");
             model.addAttribute("newBooking", bookingService.findBookingById(newBooking.getId()));

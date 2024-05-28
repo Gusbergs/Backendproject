@@ -1,13 +1,9 @@
 package com.example.backendproject.controller;
 
 
-import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.dto.UserDtoMini;
-import com.example.backendproject.models.Customer;
-import com.example.backendproject.models.User;
 import com.example.backendproject.repo.UserRepo;
-import com.example.backendproject.service.CustomerService;
-import com.example.backendproject.service.UserDetailsServiceImpl;
+import com.example.backendproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -28,7 +24,7 @@ public class UserController {
 
     private final UserRepo userRepo;
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userDetailsService;
 
 
 

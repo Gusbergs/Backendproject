@@ -26,11 +26,6 @@ public class ContractCustomerService {
                 .country(contractCustomer.getCountry()).build();
     }
 
-/*
-    public List<ContractCustomersDtoMini> getAllContractCustomersDtoMini(){
-        return contractCustomerRepo.findAll().stream().map(customer -> contractCustomersDtoMini(customer)).toList();
-    }
- */
     public void saveContractCustomer(ContractCustomer customer) {
         contractCustomerRepo.save(customer);
     }

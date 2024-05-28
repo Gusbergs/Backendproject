@@ -31,7 +31,6 @@ public class RoomService {
        /*List<BookingDtoMini> bookingDtos = room.getBookings().stream()
                .map(booking -> new BookingDtoMini(booking.getId(), booking.getCheckInDate(), booking.getCheckOutDate()))
                .collect(Collectors.toList());*/
-       List<BookingDtoDetailed> bookingDtoDetaileds = new ArrayList<>();
        return RoomDtoDetailed.builder()
                .id(room.getId())
                .roomNumber(room.getRoomNumber())

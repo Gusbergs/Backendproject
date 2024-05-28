@@ -45,10 +45,6 @@ class RoomServiceTest {
     @Autowired
     MockMvc mvc;
 
-
-
-
-
     @Autowired
     @InjectMocks
     BookingService bookingService;

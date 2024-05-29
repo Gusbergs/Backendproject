@@ -1,6 +1,6 @@
 package com.example.backendproject;
 
-import com.example.backendproject.models.QueueModel;
+import com.example.backendproject.models.QueueModels.QueueModel;
 import com.example.backendproject.repo.QueueRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

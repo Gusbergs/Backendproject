@@ -1,4 +1,4 @@
-package com.example.backendproject.models;
+package com.example.backendproject.models.QueueModels;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -37,24 +37,3 @@ public abstract class QueueModel {
 
 }
 
-@Entity
-@Data
-class RoomCleaningFinished extends QueueModel {
-    @JsonProperty("CleaningByUser")
-    private String cleaningByUser;
-}
-
-@Entity
-@Data
-class RoomClosed extends QueueModel {}
-
-@Entity
-@Data
-class RoomOpened extends QueueModel {}
-
-@Entity
-@Data
-class RoomCleaningStarted extends QueueModel {
-    @JsonProperty("CleaningByUser")
-    private String cleaningByUser;
-}

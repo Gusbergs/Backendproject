@@ -164,7 +164,7 @@ public class BookingService {
     public static boolean isBlacklisted(String email) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://javabl.systementor.se/api/stefan/blacklistcheck/" + email))
+                .uri(URI.create("https://javabl.systementor.se/api/grupp5/blacklistcheck/" + email))
                 .GET()
                 .build();
 

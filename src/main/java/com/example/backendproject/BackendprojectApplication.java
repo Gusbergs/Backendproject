@@ -55,7 +55,7 @@ public class BackendprojectApplication {
 
 	}
 
-@Bean
+/*@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
 		return (args) -> {
@@ -106,6 +106,8 @@ public class BackendprojectApplication {
 		};
 	}
 
+
+ */
 
 
 

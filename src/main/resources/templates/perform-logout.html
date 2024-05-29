@@ -6,8 +6,13 @@
   <link th:rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-<h1>Welcome to the Secured Page</h1>
-<p>You are logged in as <span th:text="${#httpServletRequest.remoteUser}"></span>.</p>
-<a th:href="@{/perform-logout}">Logout</a>
+<div class="container">
+<h3>Confirm logout page</h3>
+<!--<p>You are logged in as <span th:text="${#httpServletRequest.remoteUser}"></span>.</p>-->
+  <form>
+<p>Would you like to log out?</p>
+<a type="button" th:href="@{/perform-logout}">Logout</a>
+  </form>
+</div>
 </body>
 </html>

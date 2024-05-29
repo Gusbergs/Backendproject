@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class ShipperServiceTest {
 
-    @Mock
+    @MockBean
     ShipperRepo shipperRepo;
 
     private final JsonStreamProvider jsonStreamProvider = mock(JsonStreamProvider.class);

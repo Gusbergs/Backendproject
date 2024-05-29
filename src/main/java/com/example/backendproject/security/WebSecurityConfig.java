@@ -39,19 +39,24 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/",  "/js/**", "/css/**", "/images/**", "/login/**", "/logout","/queues/**" ).permitAll()
+                        .requestMatchers("/",  "/js/**", "/css/**", "/images/**", "/login/**", "/logout","/queues/**", "/forgot-password", "/reset-password" ,"custom-login" ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
+                        .loginPage("/custom-login")
+                        .loginProcessingUrl("/perform-login")
                         .defaultSuccessUrl("/bookings/Book-A-Room", true)
                                 .permitAll()
 
                 )
-                .logout((logout) -> {
-                    logout.permitAll();
-                    logout.logoutSuccessUrl("/");
-                });
+                .logout((logout) -> logout
+                        .logoutUrl("/perform-logout")
+                        .logoutSuccessUrl("/custom-login") // Redirect to the custom login page after logout
+                        .permitAll()
+                );
 
         return http.build();
     }
+
+
 }

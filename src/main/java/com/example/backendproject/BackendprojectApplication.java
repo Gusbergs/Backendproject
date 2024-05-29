@@ -55,7 +55,11 @@ public class BackendprojectApplication {
 
 	}
 
-@Bean
+
+
+	///*
+
+    @Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
 
 		return (args) -> {
@@ -70,9 +74,9 @@ public class BackendprojectApplication {
 			Room r1 = new Room(222, false, 0, 399);
 			Room r2 = new Room(111, false, 1, 499);
 			Room r3 = new Room(333, true, 2, 599);
-			Room r4 = new Room(444, true, 2, 699);
-			Room r5 = new Room(555, true, 0, 799);
-			Room r6 = new Room(666, false, 1, 899);
+			Room r4 = new Room(444, true, 2, 599);
+			Room r5 = new Room(555, true, 0, 399);
+			Room r6 = new Room(666, false, 1, 499);
 
 
 			Customer c1 = new Customer("kalle ", "Hej@kalle.123");
@@ -104,7 +108,8 @@ public class BackendprojectApplication {
 			bookingRepo.save(booking3);
 
 		};
-	}
+	}//*/
+
 
 
 

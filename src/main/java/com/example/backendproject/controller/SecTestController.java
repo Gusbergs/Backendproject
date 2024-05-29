@@ -42,4 +42,5 @@ public class SecTestController extends BaseController {
         model.addAttribute("username", username);
         return "security/profile";
     }
+
 }

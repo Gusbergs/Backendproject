@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Secured Page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link th:rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<h1>Welcome to the Secured Page</h1>
+<p>You are logged in as <span th:text="${#httpServletRequest.remoteUser}"></span>.</p>
+<a th:href="@{/perform-logout}">Logout</a>
+</body>
+</html>

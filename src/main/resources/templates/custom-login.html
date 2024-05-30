@@ -1,27 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link th:rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        .logging {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 75vh;
+        }
+        .logging form {
+
+            padding: 15px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .logging-btn {
+            width: 100%;
+
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .logging-btn:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            margin-bottom: 50px;
+        }
+    </style>
 </head>
-<body>
-<div class="container">
-<h1>Login Page</h1>
+<body style="background-color: lightgray">
+<div class="container logging">
+<h1>Inloggning till pensionat</h1>
 <form th:action="@{/perform-login}" method="post">
     <div>
-        <label for="username">Username:</label>
+        <label for="username">Användarnamn:</label><br>
         <input type="text" id = "username" name="username" required/>
     </div>
     <div>
-        <label for="password">Password:</label>
+        <label for="password">Lösenord:</label><br>
         <input type="password" id="password" name="password" required/>
     </div>
     <div>
-        <button type="submit">Login</button>
+        <button class="logging-btn" type="submit">Logga in</button>
     </div>
 </form>
-<a th:href="@{/forgot-password}">Forgot Password?</a> <!-- Forgot Password Link -->
+<a th:href="@{/forgot-password}">Glöm lösenordet?</a>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

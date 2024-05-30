@@ -7,36 +7,8 @@
     <link th:rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-black bg-color">
-    <div class="bar px-4 px-lg-5 d-flex justify-content-between align-items-center">
-        <h2 class="navbar-brand" href="#!">Hotel</h2>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <!--aria-current="page"-->
-                <li class="nav-item">
-                    <a class="nav-link active" href="" style="color: white">Home</a>
-                </li>
-                <li class = "nav-item service-dropdown"><a class="nav-link active service-btn" style="color: white">Service</a>
-                    <div class = "service-content">
-                        <form th:action="@{/bookings/Book-A-Room}" method="get"><input type="submit" value="Book a room"></form>
-                        <form th:action="@{/Customers/addCustomer}" method="get"><input type="submit" value="Customers"></form>
-                        <form th:action="@{/bookings/allBookings}" method="get"><input type="submit" value="All bookings"></form>
-                        <form th:action="@{/rooms}" method = "get"><input type="submit" value="All rooms"></form>
-                        <form th:action="@{/ContractCustomers/getAllContractCustomers}" method = "get"><input type="submit" value="All contracted customers"></form>
-                        <form th:action="@{/blacklists}" method="get"><input type="submit" value="Blacklists"></form>
-                        <form th:action="@{/User/addUser}" method="get"><input type="submit" value="Users"></form>
-                        <form th:action="@{/logout}" method="get"><input type="submit" value="Logout"></form>
+<div th:insert="~{nav :: nav}"></div>
 
-                    </div>
-                </li>
-
-
-
-            </ul>
-        </div>
-    </div>
-</nav>
 <div th:if = "${source} == addNewBooking">
     <h4 class = "head">Bokningen är bekräftad</h4>
     <table class="table table-bordered">

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
+
 @Controller
 public class PasswordResetController {
 
@@ -44,9 +46,18 @@ public class PasswordResetController {
     }
 
     @GetMapping("/reset-password")
-    public ModelAndView showResetPasswordPage(@RequestParam("token") String token) {
+    public ModelAndView showResetPasswordPage(@RequestParam("token") String token, Model model) {
+        User user = userRepository.findByResetToken(token);
         ModelAndView modelAndView = new ModelAndView("reset-password");
-        modelAndView.addObject("token", token);
+        if (user.getExpiringDate().isAfter(LocalDateTime.now())) {
+            modelAndView.addObject("isAvailable", true);
+            modelAndView.addObject("token", token);
+        } else {
+            user.setResetToken(null);
+            userRepository.save(user);
+            modelAndView.addObject("error_message", "Länken har gått ut");
+            modelAndView.addObject("isAvailable", false);
+        }
         return modelAndView;
     }
 

@@ -2,9 +2,11 @@ package com.example.backendproject;
 
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
+import com.example.backendproject.models.Mail;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
+import com.example.backendproject.repo.MailRepo;
 import com.example.backendproject.repo.RoomRepo;
 import com.example.backendproject.security.UserDataSeeder;
 import com.example.backendproject.service.BookingService;
@@ -60,7 +62,7 @@ public class BackendprojectApplication {
 	///*
 
     @Bean
-	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo) {
+	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo, MailRepo mailRepo) {
 
 		return (args) -> {
 
@@ -107,7 +109,20 @@ public class BackendprojectApplication {
 			bookingRepo.save(booking2);
 			bookingRepo.save(booking3);
 
+			Mail mail = new Mail("Tack för bokningen!","Hej!\n" +
+					"\n" +
+					"Tack för bokningen *namn*!\n" +
+					"\n" +
+					"Här är din info:\n" +
+					"Start-datum: *start-date*\n" +
+					"Slut-datum: *end-date*\n" +
+					"Pris: *price*\n" +
+					"\n" +
+					"Tack igen för köpet och välkommen åter!");
+
+			mailRepo.save(mail);
 		};
+
 	}//*/
 
 

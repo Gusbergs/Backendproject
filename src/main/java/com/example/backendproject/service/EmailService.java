@@ -25,16 +25,13 @@ public class EmailService {
     private TemplateEngine templateEngine;
 
 
-    public void sendHtmlEmail(String to, String subject, Map<String, Object> variables) throws MessagingException{
+    public void sendHtmlEmail(String to, String subject,String text) throws MessagingException{
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
-        Context context = new Context();
-        context.setVariables(variables);
-        String html = templateEngine.process("emailTemplate", context);
 
         helper.setTo(to);
-        helper.setText(html, true);
+        helper.setText(text);
         helper.setSubject(subject);
         helper.setFrom("trace.rowe@ethereal.email");
 

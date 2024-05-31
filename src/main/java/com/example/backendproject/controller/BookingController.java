@@ -7,9 +7,11 @@ import com.example.backendproject.dto.CustomerDtoMini;
 import com.example.backendproject.dto.RoomDtoDetailed;
 import com.example.backendproject.models.Booking;
 import com.example.backendproject.models.Customer;
+import com.example.backendproject.models.Mail;
 import com.example.backendproject.models.Room;
 import com.example.backendproject.repo.BookingRepo;
 import com.example.backendproject.repo.CustomerRepo;
+import com.example.backendproject.repo.MailRepo;
 import com.example.backendproject.repo.RoomRepo;
 import com.example.backendproject.service.*;
 import jakarta.mail.MessagingException;
@@ -32,6 +34,7 @@ public class BookingController {
     @Autowired
     private EmailService emailService;
 
+    private final MailRepo mailRepo;
 
     private final BookingService bookingService;
     private final RoomService roomService;
@@ -123,19 +126,25 @@ public class BookingController {
 
 
 
-            Map<String, Object> variables = new HashMap<>();
-            variables.put("name", bookedCustomer.getName());
-            variables.put("nr", bookedRoom.getRoomNumber());
-            variables.put("startDate", startDate);
-            variables.put("endDate",endDate);
-            variables.put("discountPrice", discountPrice);
-            variables.put("goodByeMsg", "Välkommen åter!");
+            Mail mail = mailRepo.getReferenceById(1L);
+            String subject = mail.getSubject()
+                    .replace("*start-date*", startDate.toString())
+                    .replace("*end-date*", endDate.toString())
+                    .replace("*price*", Double.toString(discountPrice))
+                    .replace("*namn*", newBooking.getCustomer().getName());
 
+            String text = mail.getText()
+                    .replace("*start-date*", startDate.toString())
+                    .replace("*end-date*", endDate.toString())
+                    .replace("*price*", Double.toString(discountPrice))
+                    .replace("*namn*", newBooking.getCustomer().getName());
             try {
-                emailService.sendHtmlEmail(bookedCustomer.getEmail(), "Bekräftelse bokning", variables);
-            } catch (MessagingException e) {
+
+                emailService.sendHtmlEmail(bookedCustomer.getEmail(),subject,text);
+            } catch (MessagingException e){
                 e.printStackTrace();
             }
+
 
             model.addAttribute("source", "addNewBooking");
             model.addAttribute("newBooking", bookingService.findBookingById(newBooking.getId()));

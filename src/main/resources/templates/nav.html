@@ -33,6 +33,9 @@
             <div sec:authorize="hasAuthority('Admin')">
             <form th:action="@{/User/addUser}" method="get"><input type="submit" value="Users"></form>
             </div>
+            <div sec:authorize="hasAuthority('Admin')">
+              <form th:action="@{/Email}" method="get"><input type="submit" value="Edit Email"></form>
+            </div>
             <form th:action="@{/logout}" method="get"><input type="submit" value="Logout"></form>
 
           </div>

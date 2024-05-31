@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div th:insert="~{nav :: nav}"></div>
+
+<div class="container mt-4">
+    <h2>Email Form</h2>
+
+    <p th:text="${msg}" class="success"></p>
+
+    <form th:action="@{/Email/update}" method="post" th:object="${mail}">
+        <div class="form-group">
+            <label for="emailSubject">Ämne</label>
+            <input type="text" class="form-control" id="emailSubject" th:field="*{subject}" th:placeholder="${mail.subject}">
+        </div>
+        <div class="form-group">
+            <label for="emailBody">Email Body</label>
+            <textarea class="form-control" id="emailBody" rows="12" th:field="*{text}" th:placeholder="${mail.text}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Email Template</button>
+    </form>
+</div>
+
+</body>
+</html>

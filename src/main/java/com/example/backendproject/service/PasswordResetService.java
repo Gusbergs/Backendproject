@@ -26,7 +26,7 @@ public class PasswordResetService {
         if (user != null) {
             String token = UUID.randomUUID().toString();
             user.setResetToken(token);
-            user.setExpiringDate(timeNow.plusSeconds(0));
+            user.setExpiringDate(timeNow.plusSeconds(15));
             userRepository.save(user);
 
             SimpleMailMessage emailMessage = new SimpleMailMessage();

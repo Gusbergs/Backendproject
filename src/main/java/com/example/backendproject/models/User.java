@@ -3,6 +3,7 @@ package com.example.backendproject.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -25,6 +26,7 @@ public class User {
     private String password;
     private boolean enabled;
     private String resetToken;
+    private LocalDateTime expiringDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

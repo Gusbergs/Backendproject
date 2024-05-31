@@ -8,8 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -23,9 +22,11 @@ public class PasswordResetService {
 
     public void sendPasswordResetEmail(String email) {
         User user = userRepository.findByUsername(email);
+        LocalDateTime timeNow = LocalDateTime.now();
         if (user != null) {
             String token = UUID.randomUUID().toString();
             user.setResetToken(token);
+            user.setExpiringDate(timeNow.plusSeconds(0));
             userRepository.save(user);
 
             SimpleMailMessage emailMessage = new SimpleMailMessage();
